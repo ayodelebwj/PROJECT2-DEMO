@@ -53,7 +53,7 @@ resource "aws_iam_policy" "github_ssm_policy" {
         Action = [
           "ssm:SendCommand",
           "ssm:GetCommandInvocation",
-          "ssm:ListCommandInvocations"
+          "ssm:ListCommandInvocations",
           "ssm:StartSession",
           "ssm:DescribeInstanceInformation",
           "ssm:DescribeSessions",
