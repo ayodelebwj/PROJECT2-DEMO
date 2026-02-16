@@ -50,7 +50,7 @@ jobs:
       - name: Terraform Apply
         working-directory: terraform
         run: 
-          terraform apply --auto-approve
+          terraform destroy --auto-approve
 
       - name: Get Terraform Output
         working-directory: terraform
@@ -102,7 +102,7 @@ jobs:
          role-to-assume: ${{ needs.terraform.outputs.role_arn }}
          aws-region: us-east-1
 
-      - name: Run Ansible Playbook
+      - name: List groups found in aws_ec2 inventory
         run: |
             ansible-inventory -i ansible/inventory/inventory_aws_ec2.yml --list
 
