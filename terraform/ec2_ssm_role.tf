@@ -22,8 +22,8 @@ resource "aws_iam_role_policy_attachment" "ssm_attach" {
 }
 
 //Step 3 — Create Instance Profile
-//resource "aws_iam_instance_profile" "ssm_profile" {
- // name = "ec2-ssm-profile"
-  //role = aws_iam_role.ssm_role.name
-//}
+resource "aws_iam_instance_profile" "ssm_profile" {
+  name = "ec2-ssm-profile"
+  role = aws_iam_role.ssm_role.name
+}
 
