@@ -40,19 +40,20 @@ jobs:
       # ----------------------------
       # Terraform Init
       # ----------------------------
-     # - name: Terraform Init
-      #  working-directory: terraform
-      #  run: terraform init
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init
 
       # -----------------------------
       # Terraform Apply
       # ------------------------------
-      #- name: Terraform Apply
-       # working-directory: terraform
-       # run: 
-       #   terraform destroy -auto-approve
+      - name: Terraform Apply
+        working-directory: terraform
+        run: 
+          terraform destroy -auto-approve
 
       - name: Get Terraform Output
+        working-directory: terraform
         id: tf
         run: 
           echo "role_arn=$(terraform output -raw github_actions_role_arn)" >> $GITHUB_OUTPUT
