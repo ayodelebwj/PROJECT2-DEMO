@@ -54,7 +54,7 @@ jobs:
 
       - name: Get Terraform Output
         id: tf
-        run: |
+        run: 
           echo "role_arn=$(terraform output -raw github_actions_role_arn)" >> $GITHUB_OUTPUT
 
       - name: Terraform output to json
