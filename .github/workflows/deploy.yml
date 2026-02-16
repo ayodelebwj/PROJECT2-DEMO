@@ -42,7 +42,7 @@ jobs:
       # ----------------------------
       - name: Terraform Init
         working-directory: terraform
-        run: terraform init
+        run: terraform init -reconfigure
 
       # -----------------------------
       # Terraform Apply
@@ -61,11 +61,6 @@ jobs:
       - name: Terraform output to json
         working-directory: terraform
         run: terraform output -json > tf_output.json
-
-
-
-
-
 
   deploy:
     runs-on: ubuntu-latest
