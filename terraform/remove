@@ -1,0 +1,2 @@
+aws iam delete-instance-profile --instance-profile-name ec2-ssm-profile
+aws iam remove-role-from-instance-profile --instance-profile-name instance-profile-name --role-name role-name
