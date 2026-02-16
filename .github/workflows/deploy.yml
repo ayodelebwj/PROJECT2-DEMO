@@ -50,7 +50,7 @@ jobs:
       - name: Terraform Apply
         working-directory: terraform
         run: 
-          terraform destroy -auto-approve
+          terraform apply -auto-approve
 
       - name: Get Terraform Output
         working-directory: terraform
