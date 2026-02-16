@@ -39,12 +39,25 @@ resource "aws_iam_policy" "github_ssm_policy" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
+           {
+        Effect = "Allow"
+        Action = [
+        "ec2:DescribeInstances",
+        "ec2:DescribeTags",
+        "ec2:DescribeRegions"
+        ]
+        Resource = "*"
+      },
       {
         Effect = "Allow"
         Action = [
           "ssm:SendCommand",
           "ssm:GetCommandInvocation",
           "ssm:ListCommandInvocations"
+          "ssm:StartSession",
+          "ssm:DescribeInstanceInformation",
+          "ssm:DescribeSessions",
+          "ssm:GetConnectionStatus"
         ]
         Resource = "*"
       }
