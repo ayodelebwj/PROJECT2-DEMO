@@ -1,9 +1,0 @@
----
-- name: Gather Facts from Backend Servers
-  hosts: all
-  gather_facts: true
-
-  tasks:
-    - name: Show hostname
-      debug:
-        var: ansible_hostname

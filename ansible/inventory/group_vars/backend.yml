@@ -1,5 +1,0 @@
-app_name: fast-api
-app_user: ubuntu
-app_dir: /home/ubuntu/class25-26-project2
-venv_dir: /home/ubuntu/class25-26-project2/venv
-app_port: 8000
