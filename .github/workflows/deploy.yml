@@ -104,4 +104,4 @@ jobs:
 
       - name: Run Ansible Playbook
         run: |
-            ansible-playbook -i ansible/inventory/inventory_aws_ec2.yml ansible/playbook.yml
+            ansible-playbook -i ansible/inventory/inventory_aws_ec2.yml ansible/playbook.yml -vvvvv
