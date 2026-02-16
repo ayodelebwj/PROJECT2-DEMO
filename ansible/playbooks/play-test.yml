@@ -1,6 +1,6 @@
 ---
 - name: Gather Facts from Backend Servers
-  hosts: all
+  hosts: backend
   gather_facts: true
 
   tasks:
