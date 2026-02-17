@@ -104,4 +104,4 @@ jobs:
 
       - name: Run Ansible Playbook
         run: |
-            ansible -i ansible/inventory/hosts backend -m ping -vvvvv
+            ansible -i ansible/inventory/hosts.yml backend -m ping -vvvvv
