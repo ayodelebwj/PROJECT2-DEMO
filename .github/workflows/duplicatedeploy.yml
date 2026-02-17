@@ -53,11 +53,17 @@ jobs:
         run: 
           terraform apply --auto-approve
 
-      - name: Get Terraform Output
+      - name: Get Role ARN Output
         working-directory: terraform
         id: tf
         run: 
           echo "role_arn=$(terraform output -raw github_actions_role_arn)" >> $GITHUB_OUTPUT
+         
+
+      - name: Get Terraform Frontend Public IPOutput
+        working-directory: terraform
+        id: tfpip
+        run: 
           echo "frontend_pub_ip=$(terraform output -raw frontend_public_ip)" >> $GITHUB_OUTPUT
          
 
