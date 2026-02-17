@@ -2,6 +2,13 @@
   - name: DEPLOY NGINX
     hosts: frontend
     become: true
+  - add_host:
+        name: "{{ frontend_instance_id }}"
+        groups: frontend
+
+  - add_host:
+        name: "{{ backend_instance_id }}"
+        groups: backend
     vars_files:
     - frontend.yml
     roles:
