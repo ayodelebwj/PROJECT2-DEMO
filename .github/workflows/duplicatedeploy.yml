@@ -134,6 +134,6 @@ jobs:
 
       - name: Run Ansible Playbook
         run: |
-            ansible-playbook -i ansible/inventory/testrunhost.yml ansible/playbook.yml --extra-vars "backend_instance_id=${{ needs.terraform.outputs.backend_inst_id }} frontend_instance_id=${{ needs.terraform.outputs.frontend_inst_id }}" 
+            ansible-playbook -i ansible/inventory/testrunhost.yml ansible/playbook.yml --extra-vars "backend_instance_id=${{ needs.terraform.outputs.backend_inst_id }} frontend_instance_id=${{ needs.terraform.outputs.frontend_inst_id }}" -vvv
 
          
