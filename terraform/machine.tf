@@ -25,7 +25,7 @@ resource "aws_instance" "backend_server" {
 }
 
 resource "aws_instance" "frontend_server" {
-  ami                    = "subnet-0e7c30f99b3fd1f62"
+  ami                    = "ami-0b6c6ebed2801a5cb"
   instance_type          = "t2.micro"
   iam_instance_profile   = aws_iam_instance_profile.ssm_profile.name
   subnet_id              = data.aws_subnet.public_subnet.id
