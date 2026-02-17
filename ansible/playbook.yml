@@ -1,17 +1,17 @@
 ---
   - name: DEPLOY NGINX
+    hosts: frontend
     become: true
     vars_files:
     - group_vars/frontend.yml
-    hosts: frontend
     roles:
     - frontend
 
   - name: DEPLOY FAST API APPLICATION
+    hosts: backend
     become: true
     vars_files:
     - group_vars/backend.yml
-    hosts: backend
     roles:
     - backend
     

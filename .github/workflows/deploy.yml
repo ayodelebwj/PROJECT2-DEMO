@@ -50,13 +50,17 @@ jobs:
       - name: Terraform Apply
         working-directory: terraform
         run: 
-          terraform apply --auto-approve
+          terraform destroy --auto-approve
 
       - name: Get Terraform Output
         working-directory: terraform
         id: tf
         run: 
           echo "role_arn=$(terraform output -raw github_actions_role_arn)" >> $GITHUB_OUTPUT
+          echo "frontend_pub_ip=$(terraform output -raw frontend_public_ip)" >> $GITHUB_OUTPUT
+          echo "backend_pri_ip=$(terraform output -raw backend_private_ip)" >> $GITHUB_OUTPUT
+          echo "backend_inst_id=$(terraform output -raw backend_instance_id)" >> $GITHUB_OUTPUT
+          echo "frontend_inst_id=$(terraform output -raw frontend_instance_id)" >> $GITHUB_OUTPUT
 
       - name: Terraform output to json
         working-directory: terraform
@@ -104,4 +108,6 @@ jobs:
 
       - name: Run Ansible Playbook
         run: |
-            ansible-playbook -i ansible/inventory/hosts.yml ansible/playbooks/play-test.yml 
+            ansible-playbook -i ansible/inventory/testrunhost.yml ansible/playbook.yml --extra-vars "backend_instance_id=$backend_inst_id frontend_instance_id=$frontend_inst_id"
+
+         
