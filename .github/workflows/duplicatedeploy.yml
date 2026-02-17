@@ -14,7 +14,12 @@ jobs:
 
     outputs:
       role_arn: ${{ steps.tf.outputs.role_arn }}
-      frontend_pub_ip: ${{ steps.tf.outputs.frontend_pub_ip }}
+      frontend_pub_ip: ${{ steps.tfftpubip.outputs.frontend_pub_ip }}
+      backend_pri_ip: ${{ steps.tfbkprip.outputs.backend_pri_ip }}
+      frontend_inst_id: ${{ steps.tfftinstid.outputs.frontend_inst_id }}
+      backend_inst_id: ${{ steps.tfbkinstid.outputs.backend_inst_id }}
+      
+
 
     steps:
       # ----------------------------------
@@ -60,18 +65,31 @@ jobs:
           echo "role_arn=$(terraform output -raw github_actions_role_arn)" >> $GITHUB_OUTPUT
          
 
-      - name: Get Terraform Frontend Public IPOutput
+      - name: Get Terraform Frontend Public IP
         working-directory: terraform
-        id: tfpip
+        id: tfftpuip
         run: 
           echo "frontend_pub_ip=$(terraform output -raw frontend_public_ip)" >> $GITHUB_OUTPUT
          
 
-
-
-
-
-
+      - name: Get Terraform Backend Private IP
+        working-directory: terraform
+        id: tfbkprip
+        run: 
+          echo "backend_pri_ip=$(terraform output -raw backend_private_ip)" >> $GITHUB_OUTPUT
+  
+      - name: Get Terraform Backend Instance ID
+        working-directory: terraform
+        id: tfbkinstid
+        run: 
+          echo "backend_inst_id=$(terraform output -raw backend_instance_id)" >> $GITHUB_OUTPUT
+  
+      - name: Get Terraform Frontend Instance ID
+        working-directory: terraform
+        id: tfftinstid
+        run: 
+          echo "frontend_inst_id=$(terraform output -raw frontend_instance_id)" >> $GITHUB_OUTPUT
+  
   deploy:
     runs-on: ubuntu-latest
     needs: terraform
