@@ -60,6 +60,20 @@ resource "aws_iam_policy" "github_ssm_policy" {
           "ssm:GetConnectionStatus"
         ]
         Resource = "*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:DeleteObject",
+          "s3:ListBucket",
+          "s3:HeadBucket"
+        ],
+        "Resource": [
+          "arn:aws:s3:::techbleat744",
+          "arn:aws:s3:::techbleat744/*"
+          ]
       }
     ]
   })
