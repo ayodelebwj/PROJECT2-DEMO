@@ -23,7 +23,7 @@
     requirements: /home/ubuntu/class25-26-project2/requirements.txt
 
 - name: Create systemd service file
-    copy:
+  copy:
       dest: "/etc/systemd/system/{{ app_name }}.service"
       content: |
         [Unit]
