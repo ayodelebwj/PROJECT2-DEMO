@@ -11,11 +11,11 @@ output "backend_private_ip" {
 }
 
 output "frontend_instance_id" {
-  value = aws_instance.frontend_server.instance_id
+  value = aws_instance.frontend_server.id
 }
 
 output "backend_instance_id" {
-  value = aws_instance.backend_server.instance_id
+  value = aws_instance.backend_server.id
 }
 
 
