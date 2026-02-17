@@ -1,6 +1,7 @@
 ---
 - name: Gather Facts from Backend Servers
   hosts: tag_Role_backend
+  become: true
   gather_facts: true
 
   tasks:
