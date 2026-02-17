@@ -52,9 +52,13 @@ jobs:
         run: 
           terraform apply --auto-approve
 
-      - name: Terraform output to json
+      - name: Get Terraform Output
         working-directory: terraform
-        run: terraform output -json > tf_output.json
+        id: tf
+        run: 
+          echo "role_arn=$(terraform output -raw github_actions_role_arn)" >> $GITHUB_OUTPUT
+         
+
 
 
 
