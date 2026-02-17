@@ -57,7 +57,7 @@ jobs:
         id: tf
         run: 
           echo "role_arn=$(terraform output -raw github_actions_role_arn)" >> $GITHUB_OUTPUT
- 
+          echo "backend_pri_ip=$(terraform output -raw backend_private_ip)" >> $GITHUB_OUTPUT
 
 
 
