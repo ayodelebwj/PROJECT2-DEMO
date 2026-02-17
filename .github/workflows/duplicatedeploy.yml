@@ -128,6 +128,10 @@ jobs:
          role-to-assume: ${{ needs.terraform.outputs.role_arn }}
          aws-region: us-east-1
 
+      - name: COnvert Inventory Jinja2 File Back To YML File
+        run: |
+         envsubst < ansible/inventory/testrunhost.yml.j2 > ansible/inventory/testrunhost.yml
+
       - name: Run Ansible Playbook
         run: |
             ansible-playbook -i ansible/inventory/testrunhost.yml ansible/playbook.yml --extra-vars "backend_instance_id=$backend_inst_id frontend_instance_id=$frontend_inst_id" -vvvvv
