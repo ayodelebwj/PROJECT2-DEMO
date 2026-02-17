@@ -3,7 +3,7 @@
   git:
     repo: https://github.com/techbleat/class25-26-project2.git
     dest: /home/ubuntu/class25-26-project2
-    
+
 - name: Change Directory
   command: chdir /home/ubuntu/class25-26-project2
 

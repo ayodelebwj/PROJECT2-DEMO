@@ -6,6 +6,10 @@ resource "aws_instance" "backend_server" {
   subnet_id              = data.aws_subnet.private_subnet.id
   key_name               = "myjob744-kp"
 
+    vpc_security_group_ids = [
+    aws_security_group.backend_sg.id
+  ]
+
   user_data = <<-EOF
               #!/bin/bash
               # Update system packages
@@ -31,6 +35,10 @@ resource "aws_instance" "frontend_server" {
   iam_instance_profile   = aws_iam_instance_profile.ssm_profile.name
   subnet_id              = data.aws_subnet.public_subnet.id
   key_name               = "myjob744-kp"
+
+    vpc_security_group_ids = [
+    aws_security_group.frontend_sg.id
+  ]
 
   user_data = <<-EOF
               #!/bin/bash
