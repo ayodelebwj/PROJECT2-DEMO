@@ -8,7 +8,7 @@
 
 - name: Load terraform outputs
   include_vars:
-    file: "{{ playbook_dir }}/roles/frontend/vars/tf_output.json"
+    file: tf_output.json
  
 - name: Install Nginx
   apt:

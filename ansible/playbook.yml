@@ -4,6 +4,12 @@
     become: true
     vars_files:
     - frontend.yml
+
+    tasks:
+      - name: Load terraform outputs
+        include_vars:
+          file: "roles/frontend/vars/tf_output.json"
+
     roles:
     - frontend
 
@@ -14,4 +20,5 @@
     - backend.yml
     roles:
     - backend
-    
+
+
