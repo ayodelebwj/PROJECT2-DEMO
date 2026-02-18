@@ -57,7 +57,8 @@ resource "aws_iam_policy" "github_ssm_policy" {
           "ssm:StartSession",
           "ssm:DescribeInstanceInformation",
           "ssm:DescribeSessions",
-          "ssm:GetConnectionStatus"
+          "ssm:GetConnectionStatus",
+          "ssm:TerminateSession"
         ]
         Resource = "*"
       },
