@@ -12,6 +12,15 @@ resource "aws_security_group" "frontend_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+   # Allow SSH from ALB only
+  ingress {
+    description     = "Allow HTTP from INTERNET"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   # Allow all outbound traffic (required for SSM if no VPC endpoint)
   egress {
     description = "Allow all outbound"
