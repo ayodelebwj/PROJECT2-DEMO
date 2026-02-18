@@ -10,7 +10,6 @@
   include_vars:
     file: tf_output.json
  
-
 - name: Install Nginx
   apt:
     name: nginx

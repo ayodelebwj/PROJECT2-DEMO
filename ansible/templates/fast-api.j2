@@ -1,9 +1,9 @@
 server {
     listen 80;
-    server_name "{{ frontend_public_ip.value }}";
+    server_name {{ frontend_public_ip.value }};
 
     location / {
-        proxy_pass http://"{{ backend_private_ip.value }}":8000;
+        proxy_pass http://{{ backend_private_ip.value }}:8000;
 
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
