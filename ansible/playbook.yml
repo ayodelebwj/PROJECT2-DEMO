@@ -1,25 +1,13 @@
 ---
-  - name: DEPLOY NGINX
+  - name: DEPLOY NGINX FRONTEND APP
     hosts: frontend
     become: true
     vars_files:
     - frontend.yml
-
-    tasks:
-      - name: Load terraform outputs
-        include_vars:
-          file: "roles/frontend/vars/tf_output.json"
-
-      - name: cat tf_output.json
-        command: cat roles/frontend/vars/tf_output.json
-
-      - name: print wrh directory
-        command: pwd
-
     roles:
       - frontend
 
-  - name: DEPLOY FAST API APPLICATION
+  - name: DEPLOY PYTHONFAST API APPLICATION
     hosts: backend
     become: true
     vars_files:
