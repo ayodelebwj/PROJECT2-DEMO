@@ -8,7 +8,9 @@
 
 - name: Load terraform outputs
   include_vars:
-    file: /home/runner/work/PROJECT2-DEMO/PROJECT2-DEMO/ansible/tf_output.json
+    file: tf_output.json
+  remote_src: yes
+  become: true
 
 - name: Install Nginx
   apt:
