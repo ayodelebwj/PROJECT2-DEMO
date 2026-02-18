@@ -66,7 +66,7 @@ jobs:
       - name: PRINT WORKING DIRECTORY
         working-directory: terraform
         run: 
-          pwd
+          cat ../ansible/roles/frontend/vars/tf_output.json
 
       - name: LIST ANSIBLE DIRECTORY
         working-directory: terraform
