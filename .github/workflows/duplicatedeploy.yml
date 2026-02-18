@@ -63,6 +63,17 @@ jobs:
         run: 
           terraform output -json > ../ansible/tf_output.json
 
+      - name: PRINT WORKING DIRECTORY
+        working-directory: terraform
+        run: 
+          pwd
+
+      - name: LIST ANSIBLE DIRECTORY
+        working-directory: terraform
+        run: 
+          ls -la ../ansible/
+
+
 
       - name: Get Role ARN Output
         working-directory: terraform
