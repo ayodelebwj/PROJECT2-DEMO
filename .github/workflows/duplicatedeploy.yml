@@ -84,7 +84,7 @@ jobs:
 
       - name: Get Terraform Frontend Public IP
         working-directory: terraform
-        id: tfftpuip
+        id: tfftpubip
         run: 
           echo "frontend_pub_ip=$(terraform output -raw frontend_public_ip)" >> $GITHUB_OUTPUT
          
