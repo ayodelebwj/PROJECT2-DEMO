@@ -6,6 +6,11 @@
     upgrade: dist
   become: true
 
+- name: Read terraform output file
+  ansible.builtin.include_vars:
+    file: tf_output.json
+    name: tf_output
+
 - name: Install Nginx
   apt:
     name: nginx
