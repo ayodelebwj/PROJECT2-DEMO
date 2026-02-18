@@ -43,20 +43,20 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      # ----------------------------
+      # ------------------------------
       # Terraform Init
-      # ----------------------------
+      # -----------------------------
       - name: Terraform Init
         working-directory: terraform
         run: terraform init -reconfigure
 
-      # -----------------------------
+      # -----------------------------===
       # Terraform Apply
       # -------------------------------
       - name: Terraform Apply
         working-directory: terraform
         run: 
-          terraform destroy --auto-approve
+          terraform apply --auto-approve
 
       - name: Terraform Output for Ansible Variables
         working-directory: terraform
