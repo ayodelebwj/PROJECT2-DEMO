@@ -61,7 +61,7 @@ jobs:
       - name: Terraform Output for Ansible Variables
         working-directory: terraform
         run: 
-          terraform output -json > ../ansible/tf_output.json
+          terraform output -json > ../ansible/roles/frontend/vars/tf_output.json
 
       - name: PRINT WORKING DIRECTORY
         working-directory: terraform
