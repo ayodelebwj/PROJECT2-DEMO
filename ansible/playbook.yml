@@ -10,15 +10,21 @@
         include_vars:
           file: "roles/frontend/vars/tf_output.json"
 
+      - name: cat tf_output.json
+        command: cat roles/frontend/vars/tf_output.json
+
+      - name: print wrh directory
+        command: pwd
+
     roles:
-    - frontend
+      - frontend
 
   - name: DEPLOY FAST API APPLICATION
     hosts: backend
     become: true
     vars_files:
-    - backend.yml
+      - backend.yml
     roles:
-    - backend
+      - backend
 
 
