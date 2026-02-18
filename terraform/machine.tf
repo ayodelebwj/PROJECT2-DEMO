@@ -4,7 +4,7 @@ resource "aws_instance" "backend_server" {
   instance_type          = "t2.micro"
   iam_instance_profile   = aws_iam_instance_profile.ssm_profile.name
   subnet_id              = data.aws_subnet.private_subnet.id
-  key_name               = "myjob744-kp"
+  key_name               = "office-kp"
 
     vpc_security_group_ids = [
     aws_security_group.backend_sg.id
@@ -34,7 +34,7 @@ resource "aws_instance" "frontend_server" {
   instance_type          = "t2.micro"
   iam_instance_profile   = aws_iam_instance_profile.ssm_profile.name
   subnet_id              = data.aws_subnet.public_subnet.id
-  key_name               = "myjob744-kp"
+  key_name               = "office-kp"
 
     vpc_security_group_ids = [
     aws_security_group.frontend_sg.id
