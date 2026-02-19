@@ -182,7 +182,7 @@ jobs:
       - name: Run Ansible Playbook
         run: |
 
-            ansible-playbook -i ansible/inventory/testrunhost.yml ansible/playbook.yml --extra-vars "frontend_instance_id=${{ needs.terraform.outputs.frontend_inst_id }} backend_instance_id=${{ needs.terraform.outputs.backend_inst_id }} backend_private_ip=${{ needs.terraform.outputs.backend_pri_ip }} frontend_public_ip=${{ needs.terraform.outputs.frontend_pub_ip }}" -vvvvv
+            ansible-playbook -i ansible/inventory/testrunhost.yml ansible/playbook.yml --extra-vars "backend_private_ip=${{ needs.terraform.outputs.backend_pri_ip }} frontend_public_ip=${{ needs.terraform.outputs.frontend_pub_ip }}" -vvvvv
 
                                                                                                              
 
