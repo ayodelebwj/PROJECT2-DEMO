@@ -14,17 +14,18 @@
     version: main
   become: true
 
-- name: Create Virtual Environment
-  command: python3 -m venv venv && source venv/bin/activate
+- name: Create venv
+  command: python3 -m venv venv
   args:
-    chdir: /home/ubuntu/class25-26-project2 
-  become: true
+    chdir: /home/ubuntu/class25-26-project2
+    creates: /home/ubuntu/class25-26-project2/venv
 
-- name: Install Requirements inside venv
-  pip:
-    requirements: /home/ubuntu/class25-26-project2/requirements.txt
-    virtualenv: /home/ubuntu/class25-26-project2/venv
-  become: true
+- name: Install requirements
+  command: /home/ubuntu/class25-26-project2/venv/bin/pip install -r requirements.txt
+  args:
+    chdir: /home/ubuntu/class25-26-project2
+
+
 
 - name: Create systemd service file
   copy:
