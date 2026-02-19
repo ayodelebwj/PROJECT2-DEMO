@@ -1,10 +1,10 @@
 ---
-
 - name: Install Python venv package
   apt:
     name: python3.12-venv
     state: present
     update_cache: yes
+    cache_valid_time: 3600
   become: true
 
 - name: Clone Repo
@@ -52,3 +52,7 @@
     enabled: yes
     state: restarted
   become: true
+
+- name: Install requirements
+  command: sudo chown ubuntu:ubuntu /home/ubuntu/class25-26-project2
+  
