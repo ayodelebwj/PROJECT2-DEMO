@@ -62,6 +62,6 @@
     dest: /etc/nginx/sites-available/default
   notify: Restart Nginx
 
-- name: Install requirements
+- name: Change Git Clone Ownership To Ubuntu
   command: sudo chown ubuntu:ubuntu /home/ubuntu/class25-26-project2
   
