@@ -15,9 +15,9 @@
   become: true
 
 - name: Create Virtual Environment
-  command: python3 -m venv venv
+  command: python3 -m venv venv && source venv/bin/activate
   args:
-    chdir: /home/ubuntu/class25-26-project2
+    chdir: /home/ubuntu/class25-26-project2 
   become: true
 
 - name: Install Requirements inside venv
