@@ -12,7 +12,6 @@
     repo: https://github.com/techbleat/class25-26-project2.git
     dest: /home/ubuntu/class25-26-project2
     version: main
-  become: true
 
 - name: Create venv
   command: python3 -m venv venv
@@ -24,8 +23,6 @@
   command: /home/ubuntu/class25-26-project2/venv/bin/pip install -r requirements.txt
   args:
     chdir: /home/ubuntu/class25-26-project2
-
-
 
 - name: Create systemd service file
   copy:
