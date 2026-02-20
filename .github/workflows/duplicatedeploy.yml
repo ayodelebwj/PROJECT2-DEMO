@@ -135,6 +135,8 @@ jobs:
                     ansible_remote_tmp: /tmp/.ansible/tmp
           EOF
           cat ../ansible/inventory/testrunhost.yml.j2
+          npm install -g prettier
+          prettier --write ../ansible/inventory/testrunhost.yml.j2
 
   deploy:
     runs-on: ubuntu-latest
