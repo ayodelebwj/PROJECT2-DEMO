@@ -134,7 +134,7 @@ jobs:
                     ansible_region: us-east-1
                     ansible_remote_tmp: /tmp/.ansible/tmp
           EOF
-          cat ../ansible/inventory/testrunhost.ini
+          cat ../ansible/inventory/testrunhost.yml
 
   deploy:
     runs-on: ubuntu-latest
