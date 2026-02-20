@@ -31,6 +31,28 @@
     state: link
     force: yes
 
+- name: Remove default Nginx config
+  file:
+    path: /etc/nginx/sites-enabled/fast-api
+    state: absent
+  notify: Restart Nginx
+
+- name: Create certbot letsencrypt Nginx config in sites available
+  template:
+    src: reverse-proxy-certbot.j2
+    dest: /etc/nginx/sites-available/reverse-proxy-certbot
+  notify: Restart Nginx
+
+- name: Enable certbot letsencrypt Nginx config in sites enabled
+  file:
+    src: /etc/nginx/sites-available/reverse-proxy-certbot
+    dest: /etc/nginx/sites-enabled/reverse-proxy-certbot
+    state: link
+  notify: Restart Nginx
+
+- name: Ensure Nginx is restarted before certbot
+  meta: flush_handlers
+
 - name: Obtain SSL certificate with Nginx plugin
   command: >
     certbot --nginx
@@ -41,3 +63,4 @@
     --redirect
   args:
     creates: "/etc/letsencrypt/live/{{ domain_name }}/fullchain.pem"
+
