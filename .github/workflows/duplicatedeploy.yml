@@ -107,7 +107,7 @@ jobs:
       - name: Popoluate Ansible Inventory
         working-directory: terraform
         run: |
-          cat <<EOF | sed 's/^[ \t]*//' > ../ansible/inventory/testrunhost.yml
+          cat <<EOF | sed 's^          //' > ../ansible/inventory/testrunhost.yml
           all:
             vars:
               ansible_become: true
@@ -134,22 +134,7 @@ jobs:
                     ansible_region: us-east-1
                     ansible_remote_tmp: /tmp/.ansible/tmp
           EOF
-          cat ../ansible/inventory/testrunhost.yml
-
-      - name: Popoluate Ansible Inventory
-        run: 
-          npm install -g prettier
-
-      - name: Popoluate Ansible Inventory
-        working-directory: terraform
-        run: 
-          prettier --write ../ansible/inventory/testrunhost.yml
-
-  
-
-
-
-
+          cat ../ansible/inventory/testrunhost.ini
 
   deploy:
     runs-on: ubuntu-latest
