@@ -174,6 +174,12 @@ jobs:
          role-to-assume: ${{ needs.terraform.outputs.role_arn }}
          aws-region: us-east-1
 
+
+      - name: cat inventory
+        run: 
+          echo "ansible - " && cat ansible/inventory/testrunhost.yml
+          echo "runner - " && cat /home/runner/work/PROJECT2-DEMO/PROJECT2-DEMO/ansible/inventory/testrunhost.yml
+
       - name: Run Ansible Playbook
         run: |
             ansible-playbook -i ansible/inventory/testrunhost.yml ansible/playbook.yml --extra-vars "backend_private_ip=${{ needs.terraform.outputs.backend_pri_ip }} frontend_public_ip=${{ needs.terraform.outputs.frontend_pub_ip }}" -vvvvv
