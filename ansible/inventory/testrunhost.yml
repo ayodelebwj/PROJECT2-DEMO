@@ -6,7 +6,7 @@ all:
   children:
     backend:
       hosts:
-       i-05fb9f3a5fcc0b1a7:
+       i-0a326bd3c13cbdae5:
            ansible_connection: amazon.aws.aws_ssm
            ansible_user: ubuntu
            ansible_aws_ssm_region: us-east-1
@@ -16,7 +16,7 @@ all:
 
     frontend:
       hosts:
-        i-03bac87c7d4a13219:
+        i-0f27aaa58841640e2:
            ansible_connection: amazon.aws.aws_ssm
            ansible_user: ubuntu
            ansible_aws_ssm_region: us-east-1
