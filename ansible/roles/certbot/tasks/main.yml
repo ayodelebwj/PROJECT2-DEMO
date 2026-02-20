@@ -64,3 +64,10 @@
   args:
     creates: "/etc/letsencrypt/live/{{ domain_name }}/fullchain.pem"
 
+  handlers:
+  - name: Restart Nginx
+    systemd:
+      name: nginx
+      state: restarted
+      enabled: yes
+
