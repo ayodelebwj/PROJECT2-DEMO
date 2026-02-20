@@ -50,9 +50,6 @@
     state: link
   notify: Restart Nginx
 
-- name: Ensure Nginx is restarted before certbot
-  meta: flush_handlers
-
 - name: Obtain SSL certificate with Nginx plugin
   command: >
     certbot --nginx
@@ -63,6 +60,6 @@
     --redirect
   args:
     creates: "/etc/letsencrypt/live/{{ domain_name }}/fullchain.pem"
-
+  notify: Restart Nginx 
 
 
