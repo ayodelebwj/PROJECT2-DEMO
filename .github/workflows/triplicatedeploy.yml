@@ -63,16 +63,6 @@ jobs:
         run: 
           terraform output -json > ../ansible/tf_output.json
 
-      - name: PRINT WORKING DIRECTORY
-        working-directory: terraform
-        run: 
-          cat ../ansible/tf_output.json
-
-      - name: LIST ANSIBLE DIRECTORY
-        working-directory: terraform
-        run: 
-          ls -la ../ansible/
-
       - name: Get Role ARN Output
         working-directory: terraform
         id: tf
@@ -102,7 +92,6 @@ jobs:
         id: tfftinstid
         run: 
           echo "frontend_inst_id=$(terraform output -raw frontend_instance_id)" >> $GITHUB_OUTPUT
- 
 
       - name: Popoluate Ansible Inventory
         working-directory: terraform
@@ -149,7 +138,7 @@ jobs:
       # ----------------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
-# ----------------------------
+      # ----------------------------
       # Install Python 
       # ----------------------------
       - name: Set up Python
@@ -174,18 +163,6 @@ jobs:
          role-to-assume: ${{ needs.terraform.outputs.role_arn }}
          aws-region: us-east-1
          
-
-
-      - name: cat ansible
-        run: 
-          echo "ansible - " && cat ansible/inventory/testrunhost.yml
-
-      - name: cat runner
-        run: 
-          echo "runner -  " && cat /home/runner/work/PROJECT2-DEMO/PROJECT2-DEMO/ansible/inventory/testrunhost.yml
-
-
-
       - name: Run Ansible Playbook
         run: |
             ansible-playbook -i ansible/inventory/testrunhost.yml ansible/playbook.yml --extra-vars "backend_private_ip=${{ needs.terraform.outputs.backend_pri_ip }} frontend_public_ip=${{ needs.terraform.outputs.frontend_pub_ip }}" -vvvvv
