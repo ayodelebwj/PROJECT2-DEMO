@@ -63,6 +63,37 @@ jobs:
         run: 
           terraform output -json > ../ansible/tf_output.json
 
+      - name: Popoluate Ansible Inventory
+        run: |
+          cat > ../ansible/inventory/testrunhost.yml <<EOF
+          all:
+            vars:
+              ansible_become: true
+              ansible_become_method: sudo
+              ansible_become_user: root
+            children:
+              backend:
+                hosts:
+                  ${backend_inst_id}:
+                    ansible_connection: amazon.aws.aws_ssm
+                    ansible_user: ubuntu
+                    ansible_aws_ssm_region: us-east-1
+                    ansible_aws_ssm_bucket_name: techbleat744
+                    ansible_region: us-east-1
+                    ansible_remote_tmp: /tmp/.ansible/tmp
+
+              frontend:
+                hosts:
+                  ${frontend_inst_id}:
+                    ansible_connection: amazon.aws.aws_ssm
+                    ansible_user: ubuntu
+                    ansible_aws_ssm_region: us-east-1
+                    ansible_aws_ssm_bucket_name: techbleat744
+                    ansible_region: us-east-1
+                    ansible_remote_tmp: /tmp/.ansible/tmp
+          EOF
+          cat ansible/inventory/testrunhost.yml
+
       - name: PRINT WORKING DIRECTORY
         working-directory: terraform
         run: 
@@ -149,41 +180,8 @@ jobs:
         run: |
          envsubst < ansible/inventory/testrunhost.yml.j2 > ansible/inventory/testrunhost.yml
 
-      - name: Popoluate Ansible Inventory
-        run: |
-          cat > ansible/inventory/testrunhost.yml <<EOF
-          all:
-            vars:
-              ansible_become: true
-              ansible_become_method: sudo
-              ansible_become_user: root
-            children:
-              backend:
-                hosts:
-                ${backend_inst_id}:
-                    ansible_connection: amazon.aws.aws_ssm
-                    ansible_user: ubuntu
-                    ansible_aws_ssm_region: us-east-1
-                    ansible_aws_ssm_bucket_name: techbleat744
-                    ansible_region: us-east-1
-                    ansible_remote_tmp: /tmp/.ansible/tmp
-
-              frontend:
-                hosts:
-                  ${frontend_inst_id}:
-                    ansible_connection: amazon.aws.aws_ssm
-                    ansible_user: ubuntu
-                    ansible_aws_ssm_region: us-east-1
-                    ansible_aws_ssm_bucket_name: techbleat744
-                    ansible_region: us-east-1
-                    ansible_remote_tmp: /tmp/.ansible/tmp
-          EOF
-          cat ansible/inventory/testrunhost.yml
-
-
       - name: Run Ansible Playbook
         run: |
-
             ansible-playbook -i ansible/inventory/testrunhost.yml ansible/playbook.yml --extra-vars "backend_private_ip=${{ needs.terraform.outputs.backend_pri_ip }} frontend_public_ip=${{ needs.terraform.outputs.frontend_pub_ip }}" -vvvvv
 
                                                                                                              
