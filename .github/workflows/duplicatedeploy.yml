@@ -93,7 +93,7 @@ jobs:
                     ansible_region: us-east-1
                     ansible_remote_tmp: /tmp/.ansible/tmp
           EOF
-          cat ansible/inventory/testrunhost.yml
+          cat ../ansible/inventory/testrunhost.yml.j2
 
       - name: PRINT WORKING DIRECTORY
         working-directory: terraform
