@@ -107,7 +107,7 @@ jobs:
       - name: Popoluate Ansible Inventory
         working-directory: terraform
         run: |
-          cat > ../ansible/inventory/testrunhost.yml.j2 <<EOF
+          cat <<EOF | sed 's/^[ \t]*//' > ../ansible/inventory/testrunhost.yml.j2
           all:
             vars:
               ansible_become: true
