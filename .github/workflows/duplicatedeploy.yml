@@ -135,8 +135,21 @@ jobs:
                     ansible_remote_tmp: /tmp/.ansible/tmp
           EOF
           cat ../ansible/inventory/testrunhost.yml.j2
+
+      - name: Popoluate Ansible Inventory
+        run: 
           npm install -g prettier
+
+      - name: Popoluate Ansible Inventory
+        working-directory: terraform
+        run: 
           prettier --write ../ansible/inventory/testrunhost.yml.j2
+
+  
+
+
+
+
 
   deploy:
     runs-on: ubuntu-latest
