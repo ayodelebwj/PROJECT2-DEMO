@@ -64,8 +64,9 @@ jobs:
           terraform output -json > ../ansible/tf_output.json
 
       - name: Popoluate Ansible Inventory
+        working-directory: terraform
         run: |
-          cat > /home/runner/work/PROJECT2-DEMO/PROJECT2-DEMO/ansible/inventory/testrunhost.yml.j2 <<EOF
+          cat > ../ansible/inventory/testrunhost.yml.j2 <<EOF
           all:
             vars:
               ansible_become: true
