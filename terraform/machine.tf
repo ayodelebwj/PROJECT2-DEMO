@@ -1,4 +1,4 @@
-//Step 4 — Attach to EC2.
+//Step 4 — Attach to EC2..
 resource "aws_instance" "backend_server" {
   ami                    = "ami-0b6c6ebed2801a5cb"
   instance_type          = "t2.micro"
