@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name {{ frontend_public_ip }};
+    server_name lennipsss.org www.lennipsss.org;
 
     location / {
         proxy_pass http://{{ backend_private_ip }}:8000;
