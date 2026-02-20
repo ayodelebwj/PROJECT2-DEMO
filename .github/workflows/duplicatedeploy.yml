@@ -63,6 +63,47 @@ jobs:
         run: 
           terraform output -json > ../ansible/tf_output.json
 
+      - name: PRINT WORKING DIRECTORY
+        working-directory: terraform
+        run: 
+          cat ../ansible/tf_output.json
+
+      - name: LIST ANSIBLE DIRECTORY
+        working-directory: terraform
+        run: 
+          ls -la ../ansible/
+
+      - name: Get Role ARN Output
+        working-directory: terraform
+        id: tf
+        run: 
+          echo "role_arn=$(terraform output -raw github_actions_role_arn)" >> $GITHUB_OUTPUT
+
+      - name: Get Terraform Frontend Public IP
+        working-directory: terraform
+        id: tfftpubip
+        run: 
+          echo "frontend_pub_ip=$(terraform output -raw frontend_public_ip)" >> $GITHUB_OUTPUT
+         
+      - name: Get Terraform Backend Private IP
+        working-directory: terraform
+        id: tfbkprip
+        run: 
+          echo "backend_pri_ip=$(terraform output -raw backend_private_ip)" >> $GITHUB_OUTPUT
+  
+      - name: Get Terraform Backend Instance ID
+        working-directory: terraform
+        id: tfbkinstid
+        run: 
+          echo "backend_inst_id=$(terraform output -raw backend_instance_id)" >> $GITHUB_OUTPUT
+  
+      - name: Get Terraform Frontend Instance ID
+        working-directory: terraform
+        id: tfftinstid
+        run: 
+          echo "frontend_inst_id=$(terraform output -raw frontend_instance_id)" >> $GITHUB_OUTPUT
+ 
+
       - name: Popoluate Ansible Inventory
         working-directory: terraform
         run: |
@@ -95,50 +136,6 @@ jobs:
           EOF
           cat ../ansible/inventory/testrunhost.yml.j2
 
-      - name: PRINT WORKING DIRECTORY
-        working-directory: terraform
-        run: 
-          cat ../ansible/tf_output.json
-
-      - name: LIST ANSIBLE DIRECTORY
-        working-directory: terraform
-        run: 
-          ls -la ../ansible/
-
-
-
-      - name: Get Role ARN Output
-        working-directory: terraform
-        id: tf
-        run: 
-          echo "role_arn=$(terraform output -raw github_actions_role_arn)" >> $GITHUB_OUTPUT
-         
-
-      - name: Get Terraform Frontend Public IP
-        working-directory: terraform
-        id: tfftpubip
-        run: 
-          echo "frontend_pub_ip=$(terraform output -raw frontend_public_ip)" >> $GITHUB_OUTPUT
-         
-
-      - name: Get Terraform Backend Private IP
-        working-directory: terraform
-        id: tfbkprip
-        run: 
-          echo "backend_pri_ip=$(terraform output -raw backend_private_ip)" >> $GITHUB_OUTPUT
-  
-      - name: Get Terraform Backend Instance ID
-        working-directory: terraform
-        id: tfbkinstid
-        run: 
-          echo "backend_inst_id=$(terraform output -raw backend_instance_id)" >> $GITHUB_OUTPUT
-  
-      - name: Get Terraform Frontend Instance ID
-        working-directory: terraform
-        id: tfftinstid
-        run: 
-          echo "frontend_inst_id=$(terraform output -raw frontend_instance_id)" >> $GITHUB_OUTPUT
-  
   deploy:
     runs-on: ubuntu-latest
     needs: terraform
