@@ -7,6 +7,11 @@
     cache_valid_time: 3600
   become: true
 
+- name: Mark repo as safe
+  command: git config --global --add safe.directory /home/ubuntu/class25-26-project2
+  become: true
+  become_user: ubuntu
+
 - name: Clone Repo
   git:
     repo: https://github.com/techbleat/class25-26-project2.git
