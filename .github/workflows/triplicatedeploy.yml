@@ -50,9 +50,9 @@ jobs:
         working-directory: terraform
         run: terraform init -reconfigure
 
-      # -----------------------------===
+      # -----------------------------
       # Terraform Apply
-      # -------------------------------=..
+      # -------------------------------
       - name: Terraform Apply
         working-directory: terraform
         run: 
