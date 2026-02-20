@@ -5,10 +5,3 @@
     state: restarted
     enabled: yes
   become: true
-
-  handlers:
-  - name: Restart Nginx
-    systemd:
-      name: nginx
-      state: restarted
-      enabled: yes
