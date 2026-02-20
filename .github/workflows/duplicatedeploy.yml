@@ -178,6 +178,8 @@ jobs:
                     ansible_region: us-east-1
                     ansible_remote_tmp: /tmp/.ansible/tmp
           EOF
+          cat ansible/inventory/testrunhost.yml
+
 
       - name: Run Ansible Playbook
         run: |
