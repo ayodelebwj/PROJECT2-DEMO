@@ -65,7 +65,7 @@ jobs:
 
       - name: Popoluate Ansible Inventory
         run: |
-          cat > ../ansible/inventory/testrunhost.yml <<EOF
+          cat > ../ansible/inventory/testrunhost.yml.j2 <<EOF
           all:
             vars:
               ansible_become: true
