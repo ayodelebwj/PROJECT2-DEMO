@@ -175,10 +175,15 @@ jobs:
          aws-region: us-east-1
 
 
-      - name: cat inventory
+      - name: cat ansible
         run: 
           echo "ansible - " && cat ansible/inventory/testrunhost.yml
+
+      - name: cat runner
+        run: 
           echo "runner - " && cat /home/runner/work/PROJECT2-DEMO/PROJECT2-DEMO/ansible/inventory/testrunhost.yml
+
+
 
       - name: Run Ansible Playbook
         run: |
