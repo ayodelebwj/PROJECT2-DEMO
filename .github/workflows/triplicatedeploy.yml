@@ -56,7 +56,7 @@ jobs:
       - name: Terraform Apply
         working-directory: terraform
         run: 
-          terraform destroy --auto-approve
+          terraform apply --auto-approve
 
       - name: Terraform Output for Ansible Variables
         working-directory: terraform
