@@ -116,7 +116,7 @@ jobs:
             children:
               backend:
                 hosts:
-                  ${{ steps.tfbkinstid.outputs.backend_inst_id}}:
+                  ${{ steps.tfbkinstid.outputs.backend_inst_id }}:
                     ansible_connection: amazon.aws.aws_ssm
                     ansible_user: ubuntu
                     ansible_aws_ssm_region: us-east-1
@@ -126,7 +126,7 @@ jobs:
 
               frontend:
                 hosts:
-                  ${{ steps.tfftinstid.outputs.front_inst_id}}::
+                  ${{ steps.tfftinstid.outputs.frontend_inst_id }}:
                     ansible_connection: amazon.aws.aws_ssm
                     ansible_user: ubuntu
                     ansible_aws_ssm_region: us-east-1
