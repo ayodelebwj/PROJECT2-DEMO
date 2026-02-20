@@ -182,7 +182,7 @@ jobs:
 
       - name: cat runner
         run: 
-          echo "runner - " && cat /home/runner/work/PROJECT2-DEMO/PROJECT2-DEMO/ansible/inventory/testrunhost.yml
+          echo "runner -  " && cat /home/runner/work/PROJECT2-DEMO/PROJECT2-DEMO/ansible/inventory/testrunhost.yml
 
 
 
