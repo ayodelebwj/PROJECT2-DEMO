@@ -15,4 +15,15 @@
     roles:
       - backend
 
+  - name: DEPLOY CERTBOT LETSENCRYPT
+    hosts: frontend
+    become: true
+    vars_files:
+    - frontend.yml
+    vars:
+      domain_name: lennipsss.org
+      certbot_email: admin@lennipsss.org
+    roles:
+      - certbot
+
 
