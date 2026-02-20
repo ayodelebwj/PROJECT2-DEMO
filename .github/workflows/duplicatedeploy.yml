@@ -116,7 +116,7 @@ jobs:
             children:
               backend:
                 hosts:
-                  ${backend_inst_id}:
+                  ${{ steps.tfbkinstid.outputs.backend_inst_id}}:
                     ansible_connection: amazon.aws.aws_ssm
                     ansible_user: ubuntu
                     ansible_aws_ssm_region: us-east-1
@@ -126,7 +126,7 @@ jobs:
 
               frontend:
                 hosts:
-                  ${frontend_inst_id}:
+                  ${{ steps.tfftinstid.outputs.front_inst_id}}::
                     ansible_connection: amazon.aws.aws_ssm
                     ansible_user: ubuntu
                     ansible_aws_ssm_region: us-east-1
@@ -174,7 +174,7 @@ jobs:
          role-to-assume: ${{ needs.terraform.outputs.role_arn }}
          aws-region: us-east-1
 
-      - name: COnvert Inventory Jinja2 File Back To YML File
+      - name: Convert Inventory Jinja2 File Back To YML File
         run: |
          envsubst < ansible/inventory/testrunhost.yml.j2 > ansible/inventory/testrunhost.yml
 
