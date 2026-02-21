@@ -128,6 +128,7 @@ jobs:
 
   security:
     runs-on: ubuntu-latest
+    needs: terraform
     permissions:
       id-token: write
       contents: read
@@ -158,6 +159,14 @@ jobs:
         with:
             args: detect --source . --report-path reports/gitleaks.json
 
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+            projectBaseDir: .
+        env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+
       - name: Install Ansible
         run: |
           sudo apt update -y && sudo apt-get install -y ansible
@@ -169,7 +178,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: terraform
+    needs: [terraform, security]
     permissions:
       id-token: write
       contents: read
