@@ -140,6 +140,7 @@ jobs:
       - name: Set up Java (for Sonar & Dependency Check)
         uses: actions/setup-java@v3
         with:
+          distribution: 'temurin'
           java-version: 11
 
       - name: Install dependencies

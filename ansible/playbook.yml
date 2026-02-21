@@ -7,11 +7,6 @@
     roles:
       - frontend
 
-  - name: Run Security Scans using Role
-    hosts: localhost
-    roles:
-    - role: security_scans
-
   - name: DEPLOY PYTHONFAST API APPLICATION
     hosts: backend
     become: true
