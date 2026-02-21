@@ -1,0 +1,34 @@
+---
+- name: Ensure reports directory exists
+  ansible.builtin.file:
+    path: "{{ reports_dir }}"
+    state: directory
+
+- name: Run SAST scan (SonarScanner)
+  ansible.builtin.shell: |
+    sonar-scanner \
+      -Dsonar.projectKey={{ sonar_project_key }} \
+      -Dsonar.sources=. \
+      -Dsonar.host.url=https://sonarcloud.io \
+      -Dsonar.login={{ lookup('env', 'SONAR_TOKEN') }}
+  args:
+    chdir: "./"
+
+- name: Run Dependency Scan (OWASP Dependency-Check)
+  ansible.builtin.shell: |
+    dependency-check --project "MyProject" --scan . --format HTML --out {{ reports_dir }}/dependency-check.html
+  args:
+    chdir: "./"
+
+- name: Run Secrets Scan (Gitleaks)
+  ansible.builtin.shell: |
+    gitleaks detect --source . --report-path {{ reports_dir }}/gitleaks.json
+  args:
+    chdir: "./"
+
+- name: Show report paths
+  ansible.builtin.debug:
+    msg:
+      - "Dependency Check Report: {{ reports_dir }}/dependency-check.html"
+      - "Secrets Scan Report: {{ reports_dir }}/gitleaks.json"
+      - "SAST Scan: Check SonarCloud dashboard"
