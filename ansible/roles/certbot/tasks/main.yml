@@ -32,5 +32,4 @@
     force: yes
 
 - name: Obtain SSL certificate with Nginx plugin
-  command: sudo certbot --nginx -d lennipsss.org -d www.lennipsss.org
-
+  command: sudo certbot --nginx -d lennipsss.org -d www.lennipsss.org--non-interactive --agree-tos -m your-email@example.com --redirect
