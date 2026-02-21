@@ -21,7 +21,7 @@ resource "aws_security_group" "frontend_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Allow HTTPS from ALB only
+  # Allow HTTPS from ALB only.
   ingress {
     description     = "Allow HTTPS from INTERNET"
     from_port       = 443
