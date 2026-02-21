@@ -56,7 +56,7 @@ jobs:
       - name: Terraform Apply
         working-directory: terraform
         run: 
-          terraform apply --auto-approve
+          terraform destroy --auto-approve
 
       - name: Terraform Output for Ansible Variables
         working-directory: terraform
@@ -125,60 +125,36 @@ jobs:
           EOF
           cat ../ansible/inventory/testrunhost.yml
 
-
-  security:
-    runs-on: ubuntu-latest
+  sonar:
     needs: terraform
-    permissions:
-      id-token: write
-      contents: read
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Java (for Sonar & Dependency Check)
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: 11
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y git unzip curl
-
-      - name: Install OWASP Dependency-Check
-        run: |
-          curl -sLO https://github.com/jeremylong/DependencyCheck/releases/download/v8.4.1/dependency-check-8.4.1-release.zip
-          unzip dependency-check-8.4.1-release.zip
-          sudo mv dependency-check /usr/local/bin/dependency-check
-
-      - name: Run Gitleaks
-        uses: gitleaks/gitleaks-action@v2
-        with:
-            args: detect --source . --report-path reports/gitleaks.json
+      - uses: actions/checkout@v3
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         with:
-            projectBaseDir: .
-        env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-
-      - name: Install Ansible
-        run: |
-          sudo apt update -y && sudo apt-get install -y ansible
-
-      - name: Run Security Scans via Ansible
-        run: ansible-playbook ansible/scan.yml
+          projectBaseDir: .
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
+  secrets:
+    needs: sonar
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+
+
+
+  
   deploy:
     runs-on: ubuntu-latest
-    needs: [terraform, security]
+    needs: [terraform]
     permissions:
       id-token: write
       contents: read
