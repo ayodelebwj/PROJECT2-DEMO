@@ -31,18 +31,6 @@
     state: link
     force: yes
 
-
 - name: Obtain SSL certificate with Nginx plugin
-  command: >
-    certbot --nginx
-    -d {{ domain_name }}
-    -d www.{{ domain_name }}
-    --non-interactive
-    --agree-tos
-    -m {{ certbot_email }}
-    --redirect
-  args:
-    creates: "/etc/letsencrypt/live/{{ domain_name }}/fullchain.pem"
-  notify: Restart Nginx 
-
+  command: sudo certbot --nginx -d lennipsss.org -d www.lennipsss.org
 
