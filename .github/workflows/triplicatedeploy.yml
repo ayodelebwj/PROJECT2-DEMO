@@ -48,7 +48,7 @@ jobs:
       # ------------------------------
       - name: Terraform Init
         working-directory: terraform
-        run: terraform init -reconfigure
+        run: terraform init 
 
       # -------------------------------
       # Terraform Apply
