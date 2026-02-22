@@ -1,9 +1,0 @@
-aws iam delete-instance-profile --instance-profile-name ec2-ssm-profile
-aws iam remove-role-from-instance-profile --instance-profile-name instance-profile-name --role-name role-name
-aws iam remove-role-from-instance-profile --instance-profile-name ec2-ssm-profile --role-name ROLE_NAME
-aws ec2 describe-iam-instance-profile-associations
-aws ec2 disassociate-iam-instance-profile --association-id ASSOCIATION_ID
-aws iam delete-instance-profile --instance-profile-name ec2-ssm-profile
-ansible_aws_ssm_region: "'us-east-1'"
-//ansible-playbook -i ansible/inventory/inventory_aws_ec2.yml ansible/playbook.yml -vvvvv
-////ansible_connection=amazon.aws.aws_ssm
