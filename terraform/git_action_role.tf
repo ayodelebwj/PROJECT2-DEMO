@@ -46,7 +46,8 @@ resource "aws_iam_policy" "github_actions_ec2_policy" {
           "ec2:RunInstances",
           "ec2:TerminateInstances",
           "ec2:StartInstances",
-          "ec2:StopInstances"
+          "ec2:StopInstances",
+          "ec2:DescribeTags"
         ]
         Resource = "arn:aws:ec2:us-east-1:380029909039:instance/*"
       },
@@ -60,8 +61,27 @@ resource "aws_iam_policy" "github_actions_ec2_policy" {
        "Resource": [
          "arn:aws:s3:::techbleat744",
          "arn:aws:s3:::techbleat744/*"
-  ]
-}
+        ]
+        },
+        {
+        Effect = "Allow",
+        Action = [
+          "ssm:StartSession",
+          "ssm:DescribeInstanceInformation",
+          "ssm:GetConnectionStatus",
+          "ssm:DescribeSessions",
+          "ssm:TerminateSession"
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "ssm:SendCommand",
+          "ssm:GetCommandInvocation"
+        ],
+        Resource = "*"
+      }
     ]
   })
 }
