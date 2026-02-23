@@ -47,6 +47,6 @@ resource "aws_iam_policy" "github_actions_ec2_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "attach_ec2_policy" {
-  role       = aws_iam_role.github_actions_role.name
+  role       = aws_iam_role.github_actions_role_arn.name
   policy_arn = aws_iam_policy.github_actions_ec2_policy.arn
 }
