@@ -1,0 +1,114 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Upgrade all packages
+  apt:
+    upgrade: dist
+
+# -----------------------------
+# SSH HARDENING
+# -----------------------------
+
+- name: Disable root SSH login
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: "PermitRootLogin no"
+  when: disable_root_login
+  notify: restart ssh
+
+- name: Disable SSH password authentication
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    line: "PasswordAuthentication no"
+  when: disable_password_auth
+  notify: restart ssh
+
+- name: Set SSH port
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?Port'
+    line: "Port {{ ssh_port }}"
+  notify: restart ssh
+
+# -----------------------------
+# FIREWALL (UFW)
+# -----------------------------
+
+- name: Install UFW
+  apt:
+    name: ufw
+    state: present
+
+- name: Allow SSH
+  ufw:
+    rule: allow
+    port: "{{ ssh_port }}"
+    proto: tcp
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+  when: enable_ufw
+
+# -----------------------------
+# REMOVE UNUSED SERVICES
+# -----------------------------
+
+- name: Remove telnet if installed
+  apt:
+    name: telnet
+    state: absent
+
+- name: Remove rsh-client if installed
+  apt:
+    name: rsh-client
+    state: absent
+
+# -----------------------------
+# ENABLE AUDITING
+# -----------------------------
+
+- name: Install auditd
+  apt:
+    name: auditd
+    state: present
+
+- name: Ensure auditd is running
+  service:
+    name: auditd
+    state: started
+    enabled: true
+
+# -----------------------------
+# FILE PERMISSIONS
+# -----------------------------
+
+- name: Secure /etc/passwd
+  file:
+    path: /etc/passwd
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Secure /etc/shadow
+  file:
+    path: /etc/shadow
+    owner: root
+    group: shadow
+    mode: '0640'
+
+- name: Activate vital ports in UFW
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - 80
+    - 443
+    - 8000
+    - 22
+  when: enable_ufw

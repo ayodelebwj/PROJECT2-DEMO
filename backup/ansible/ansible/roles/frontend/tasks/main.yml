@@ -1,0 +1,72 @@
+---
+
+- name: Update Ubuntu
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: Load terraform outputs
+  include_vars:
+    file: tf_output.json
+ 
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Ensure Nginx is started
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Mark repo as safe
+  command: git config --global --add safe.directory /home/ubuntu/class25-26-project2
+  become: true
+  become_user: ubuntu
+
+- name: Clone the project repository
+  git:
+    repo: https://github.com/techbleat/class25-26-project2.git
+    dest: /home/ubuntu/class25-26-project2
+
+- name: Copy login.html to Nginx root
+  copy:
+    src: /home/ubuntu/class25-26-project2/app/templates/login.html
+    dest: /var/www/html/login.html
+    remote_src: yes
+
+- name: Copy home.html to Nginx root
+  copy:
+    src: /home/ubuntu/class25-26-project2/app/templates/home.html
+    dest: /var/www/html/home.html
+    remote_src: yes
+
+- name: Remove default Nginx config
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: Restart Nginx
+
+- name: Create Nginx config for FastAPI
+  template:
+    src: fast-api.j2
+    dest: /etc/nginx/sites-available/fast-api
+  notify: Restart Nginx
+
+- name: Enable FastAPI Nginx config
+  file:
+    src: /etc/nginx/sites-available/fast-api
+    dest: /etc/nginx/sites-enabled/fast-api
+    state: link
+  notify: Restart Nginx
+
+- name: Create Nginex Deafult Config File in Sites Available
+  template:
+    src: default.j2
+    dest: /etc/nginx/sites-available/default
+  notify: Restart Nginx
+
+- name: Change Git Clone Ownership To Ubuntu
+  command: sudo chown ubuntu:ubuntu /home/ubuntu/class25-26-project2
+  

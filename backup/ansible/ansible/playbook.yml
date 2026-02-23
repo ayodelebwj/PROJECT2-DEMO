@@ -1,0 +1,39 @@
+---
+  - name: CONFIGURE CIS ALIGNED BASELINE 
+    hosts: all
+    become: true
+    vars_files:
+      - backend.yml
+      - frontend.yml
+    roles:
+      - hardening
+      
+  - name: DEPLOY NGINX FRONTEND APP
+    hosts: frontend
+    become: true
+    vars_files:
+    - frontend.yml
+    roles:
+      - frontend
+
+  - name: DEPLOY PYTHON FAST API BACKEND APPLICATION
+    hosts: backend
+    become: true
+    vars_files:
+      - backend.yml
+    roles:
+      - backend
+
+  - name: CONFIGURE CERTBOT LETSENCRYPT SSL CERTIFICATE
+    hosts: frontend
+    become: true
+    vars_files:
+    - frontend.yml
+    vars:
+      domain_name: lennipsss.org
+      certbot_email: admin@lennipsss.org
+    roles:
+      - certbot
+
+
+
