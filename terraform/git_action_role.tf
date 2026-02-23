@@ -3,7 +3,7 @@ resource "aws_iam_openid_connect_provider" "github" {
 
   client_id_list = ["sts.amazonaws.com"]
   
-  thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1"]
+  thumbprint_list = [var.thumbprint_list]
 }
 
 resource "aws_iam_role" "github_actions_role" {
@@ -33,7 +33,7 @@ resource "aws_iam_role" "github_actions_role" {
 
 
 resource "aws_iam_policy" "github_actions_ec2_policy" {
-  name        = "github-actions-ec2-policy"
+  name        = var.github_actions_ec2_policy_name
   description = "Allow GitHub Actions to manage EC2 resources"
 
   policy = jsonencode({
@@ -49,7 +49,7 @@ resource "aws_iam_policy" "github_actions_ec2_policy" {
           "ec2:StopInstances",
           "ec2:DescribeTags"
         ]
-        Resource = "arn:aws:ec2:us-east-1:380029909039:instance/*"
+        Resource = var.github_actions_ec2_policy_Resource
       },
       {
         "Effect": "Allow",

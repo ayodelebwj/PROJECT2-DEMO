@@ -1,5 +1,5 @@
 resource "aws_security_group" "frontend_sg" {
-  name        = "frontend-sg"
+  name        = var.frontend_sg_name
   description = "Security group for FRONTEND EC2 instances"
   vpc_id      = data.aws_vpc.myvpc.id
 
@@ -40,20 +40,20 @@ resource "aws_security_group" "frontend_sg" {
   }
 
   tags = {
-    Name        = "frontend-sg"
+    Name        = var.frontend_sg_tag_name
   }
 }
 
 resource "aws_security_group" "backend_sg" {
-  name        = "backend-sg"
+  name        = var.backend_sg_name
   description = "Security group for backend EC2 instances"
   vpc_id      = data.aws_vpc.myvpc.id
 
   # Allow HTTP from frontend only
   ingress {
     description     = "Allow HTTP from FRONTEND"
-    from_port       = 8000
-    to_port         = 8000
+    from_port       = var.backend_sg_from_port
+    to_port         = var.backend_sg_to_port
     protocol        = "tcp"
     security_groups = [aws_security_group.frontend_sg.id]
   }
@@ -68,7 +68,7 @@ resource "aws_security_group" "backend_sg" {
   }
 
   tags = {
-    Name        = "backend-sg"
+    Name        = var.backend_sg_tag_Name
   }
 }
 
