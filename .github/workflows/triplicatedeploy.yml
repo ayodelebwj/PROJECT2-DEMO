@@ -67,7 +67,7 @@ jobs:
         working-directory: terraform
         id: tf
         run: 
-          echo "role_arn=$(terraform output -raw github_actions_role_arn)" >> $GITHUB_OUTPUT
+          echo "role_arn=$(terraform output -raw github_actions_role)" >> $GITHUB_OUTPUT
 
       - name: Get Terraform Frontend Public IP
         working-directory: terraform
