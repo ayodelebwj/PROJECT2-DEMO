@@ -1,9 +1,9 @@
 
-      output frontend_pub_ip {
+      output frontend_public_ip {
         value = aws_instance.frontend_server.public_ip
       }
 
-      output  backend_pri_ip {
+      output  backend_private_ip {
         value = aws_instance.backend_server.private_ip
       }
 
@@ -15,7 +15,7 @@
         value = aws_instance.backend_server.id
       }
 
-      output role_arn {
+      output github_actions_role {
         value = aws_iam_role.github_actions_role.arn
       }
       
