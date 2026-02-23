@@ -1,4 +1,4 @@
-resource "aws_iam_role" "github_actions_role" {
+resource "aws_iam_role" "github_actions_role_arn" {
   name = "github-actions-role"
 
   assume_role_policy = jsonencode({
