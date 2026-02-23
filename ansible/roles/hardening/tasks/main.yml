@@ -100,3 +100,15 @@
     owner: root
     group: shadow
     mode: '0640'
+
+- name: Activate vital ports in UFW
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - 80
+    - 443
+    - 8000
+    - 22
+  when: enable_ufw

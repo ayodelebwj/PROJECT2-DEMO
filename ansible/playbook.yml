@@ -1,13 +1,5 @@
 ---
-  - name: DEPLOY NGINX FRONTEND APP
-    hosts: frontend
-    become: true
-    vars_files:
-    - frontend.yml
-    roles:
-      - frontend
-
-  - name: DEPLOY PYTHON FAST API BACKEND APPLICATION
+  - name: CONFIGURE CIS ALIGNED BASELINE 
     hosts: all
     become: true
     vars_files:
@@ -15,6 +7,14 @@
       - frontend.yml
     roles:
       - hardening
+      
+  - name: DEPLOY NGINX FRONTEND APP
+    hosts: frontend
+    become: true
+    vars_files:
+    - frontend.yml
+    roles:
+      - frontend
 
   - name: DEPLOY PYTHON FAST API BACKEND APPLICATION
     hosts: backend
