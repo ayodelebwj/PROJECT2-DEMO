@@ -49,7 +49,19 @@ resource "aws_iam_policy" "github_actions_ec2_policy" {
           "ec2:StopInstances"
         ]
         Resource = "arn:aws:ec2:us-east-1:380029909039:instance/*"
-      }
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+           "s3:ListBucket",
+           "s3:GetObject",
+           "s3:PutObject"
+       ],
+       "Resource": [
+         "arn:aws:s3:::techbleat744",
+         "arn:aws:s3:::techbleat744/*"
+  ]
+}
     ]
   })
 }
