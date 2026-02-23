@@ -3,7 +3,7 @@ resource "aws_security_group" "frontend_sg" {
   description = "Security group for FRONTEND EC2 instances"
   vpc_id      = data.aws_vpc.myvpc.id
 
-  # Allow HTTP from ALB only
+  # Allow HTTP from ALB only.
   ingress {
     description     = "Allow HTTP from INTERNET"
     from_port       = 80
