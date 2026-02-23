@@ -7,16 +7,7 @@
     roles:
       - frontend
 
-  - name: DEPLOY PYTHON FAST API BACKEND APPLICATION
-    hosts: all
-    become: true
-    vars_files:
-      - backend.yml
-      - frontend.yml
-    roles:
-      - hardening
-
-  - name: DEPLOY PYTHON FAST API BACKEND APPLICATION
+  - name: DEPLOY PYTHONFAST API APPLICATION
     hosts: backend
     become: true
     vars_files:
@@ -24,7 +15,7 @@
     roles:
       - backend
 
-  - name: CONFIGURE CERTBOT LETSENCRYPT SSL CERTIFICATE
+  - name: DEPLOY CERTBOT LETSENCRYPT
     hosts: frontend
     become: true
     vars_files:

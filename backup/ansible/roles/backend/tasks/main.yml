@@ -1,0 +1,61 @@
+---
+- name: Install Python venv package
+  apt:
+    name: python3.12-venv
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  become: true
+
+- name: Mark repo as safe
+  command: git config --global --add safe.directory /home/ubuntu/class25-26-project2
+  become: true
+  become_user: ubuntu
+
+- name: Clone Repo
+  git:
+    repo: https://github.com/techbleat/class25-26-project2.git
+    dest: /home/ubuntu/class25-26-project2
+    version: main
+
+- name: Create venv
+  command: python3 -m venv venv
+  args:
+    chdir: /home/ubuntu/class25-26-project2
+    creates: /home/ubuntu/class25-26-project2/venv
+
+- name: Install requirements
+  command: /home/ubuntu/class25-26-project2/venv/bin/pip install -r requirements.txt
+  args:
+    chdir: /home/ubuntu/class25-26-project2
+
+- name: Create systemd service file
+  copy:
+    dest: "/etc/systemd/system/{{ app_name }}.service"
+    content: |
+      [Unit]
+      Description=FastAPI Application
+      After=network.target
+
+      [Service]
+      User={{ app_user }}
+      Group={{ app_user }}
+      WorkingDirectory={{ app_dir }}
+      ExecStart=/bin/bash -c 'source venv/bin/activate && pip install -r requirements.txt && uvicorn app.main:app --host 0.0.0.0 --port 8000'
+      Restart=always
+      RestartSec=5
+
+      [Install]
+      WantedBy=multi-user.target
+  notify: Reload systemd
+  become: true
+
+- name: Enable and start FastAPI service
+  systemd:
+    name: "{{ app_name }}"
+    enabled: yes
+    state: restarted
+  become: true
+
+- name: Change Git Clone Ownership To Ubuntu
+  command: sudo chown ubuntu:ubuntu /home/ubuntu/class25-26-project2

@@ -1,0 +1,6 @@
+---
+- name: Run Security Scans using Role
+  hosts: localhost
+  gather_facts: no
+  roles:
+    - role: security_scans

@@ -1,0 +1,43 @@
+---
+- name: Install snapd
+  apt:
+    name: snapd
+    state: present
+    update_cache: yes
+
+- name: Ensure snapd is running
+  systemd:
+    name: snapd
+    state: started
+    enabled: yes
+
+- name: Install core snap
+  command: snap install core
+  args:
+    creates: /snap/bin/core
+
+- name: Refresh snap core
+  command: snap refresh core
+
+- name: Install Certbot
+  command: snap install --classic certbot
+  args:
+    creates: /snap/bin/certbot
+
+- name: Create symlink for certbot
+  file:
+    src: /snap/bin/certbot
+    dest: /usr/bin/certbot
+    state: link
+    force: yes
+
+- name: Obtain SSL certificate without prompts
+  command: >
+    /usr/bin/certbot --nginx
+    -d {{ domain_name }}
+    -d www.{{ domain_name }}
+    --non-interactive
+    --agree-tos
+    -m {{ certbot_email }}
+    --redirect
+  notify: Restart Nginx
