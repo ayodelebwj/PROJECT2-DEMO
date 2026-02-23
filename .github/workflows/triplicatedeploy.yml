@@ -125,7 +125,7 @@ jobs:
           EOF
           cat ../ansible/inventory/testrunhost.yml
 
-  sonar:
+  vulnerability_dependency_scan:
     needs: terraform
     runs-on: ubuntu-latest
 
@@ -139,8 +139,8 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  secrets:
-    needs: sonar
+  secrets_scan:
+    needs: vulnerability_dependency_scan
     runs-on: ubuntu-latest
 
     steps:
@@ -149,12 +149,9 @@ jobs:
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
 
-
-
-  
   deploy:
     runs-on: ubuntu-latest
-    needs: [terraform, sonar, secrets]
+    needs: [terraform, vulnerability_dependency_scan, secrets_scan]
     permissions:
       id-token: write
       contents: read
