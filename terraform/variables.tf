@@ -62,4 +62,56 @@ variable github_actions_ec2_policy_Resource {
     description = "The ARN of the EC2 resources that GitHub Actions can manage"
     type        = string
 }
+
+variable backend_server_ami {
+    description = "The AMI ID for the backend server"
+    type        = string
+}
+
+variable backend_server_instance_type {
+    description = "The instance type for the backend server"
+    type        = string
+}
+
+
+variable backend_server_key_name {
+    description = "The key name for the backend server"
+    type        = string
+}
+
+variable backend_server_tags_Name {
+    description = "The tag name for the backend server"
+    type        = string
+}
+
+variable backend_server_tags_Role {
+    description = "The tag role for the backend server"
+    type        = string
+}
+
+variable frontend_server_ami {
+    description = "The AMI ID for the frontend server"
+    type        = string
+}
+
+variable frontend_server_instance_type {
+    description = "The instance type for the frontend server"
+    type        = string
+}
+
+variable frontend_server_key_name {
+    description = "The key name for the frontend server"
+    type        = string
+}
+
+variable frontend_server_tags_Name {
+    description = "The tag name for the frontend server"
+    type        = string
+}
+
+variable frontend_server_tags_Role {
+    description = "The tag role for the frontend server"
+    type        = string
+}
+
  
