@@ -60,11 +60,6 @@ jobs:
         working-directory: terraform
         run: 
           terraform output -json > ../ansible/tf_output.json
-
-      - name: Terraform Output for Ansible Variables
-        working-directory: terraform
-        run: 
-          cat ../ansible/tf_output.json
          
       - name: Get Role ARN Output
         working-directory: terraform
@@ -192,7 +187,7 @@ jobs:
          
       - name: Run Ansible Playbook
         run: |
-            ansible-playbook -i ansible/inventory/testrunhost.yml ansible/playbook.yml --extra-vars "backend_private_ip=${{ needs.terraform.outputs.backend_pri_ip }} frontend_public_ip=${{ needs.terraform.outputs.frontend_pub_ip }}" -vvvvv
+            ansible-playbook -i ansible/inventory/testrunhost.yml ansible/playbook.yml --extra-vars "backend_private_ip=${{ needs.terraform_infrastructure.outputs.backend_pri_ip }} frontend_public_ip=${{ needs.terraform_infrastructure.outputs.frontend_pub_ip }}" -vvvvv
 
                                                                                                              
 
