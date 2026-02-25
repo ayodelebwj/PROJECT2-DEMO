@@ -12,7 +12,7 @@ resource "aws_security_group" "frontend_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-   # Allow SSH from ALB only.
+   # Allow SSH from ALB only..
   ingress {
     description     = "Allow SSH from INTERNET"
     from_port       = 22
