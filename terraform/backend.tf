@@ -1,8 +1,11 @@
 terraform {
   backend "s3" {
-    bucket         = "techbleat744"
-    key            = "env/terraform.tfstate"
-    region         = "us-east-1"
+    bucket         = var.backend_s3_bucket
+    key            = var.backend_s3_key
+    region         = var.backend_s3_region
     encrypt        = true
   }
 }
+
+
+              

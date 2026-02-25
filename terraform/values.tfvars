@@ -22,3 +22,8 @@ frontend_server_key_name              = "myjob744-kp"
 frontend_server_tags_Name             = "frontend-instance"
 frontend_server_tags_Role             = "frontend"
 
+backend_s3_bucket                     = "techbleat744"
+backend_s3_key                        = "env/terraform.tfstate"
+backend_s3_region                     = "us-east-1"
+
+

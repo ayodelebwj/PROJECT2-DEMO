@@ -114,4 +114,18 @@ variable frontend_server_tags_Role {
     type        = string
 }
 
+variable backend_s3_bucket {
+    description = "The name of the S3 bucket for backend Terraform state"
+    type        = string
+}
+
+variable backend_s3_key {
+    description = "The key for the S3 bucket to store Terraform state"
+    type        = string
+}
+
+variable backend_s3_region {
+    description = "The region of the S3 bucket for backend Terraform state"
+    type        = string
+}
  
