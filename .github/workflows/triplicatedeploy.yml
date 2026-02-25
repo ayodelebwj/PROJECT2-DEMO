@@ -54,7 +54,7 @@ jobs:
       - name: Terraform Apply
         working-directory: terraform
         run: 
-          terraform apply --auto-approve -var-file=values.tfvars
+          terraform destroy --auto-approve -var-file=values.tfvars
 
       - name: Terraform Output for Ansible Variables
         working-directory: terraform
@@ -94,7 +94,7 @@ jobs:
       - name: Popoluate Ansible Inventory
         working-directory: terraform
         run: |
-          cat <<EOF | sed 's/^          //' > ../ansible/inventory/testrunhost.yml
+          cat <<EOF | sed 's/^          //' > ../ansible/template/testrunhost.yml
           all:
             vars:
               ansible_become: true
@@ -121,7 +121,7 @@ jobs:
                     ansible_region: us-east-1
                     ansible_remote_tmp: /tmp/.ansible/tmp
           EOF
-          cat ../ansible/inventory/testrunhost.yml
+          cat ../ansible/template/testrunhost.yml
 
   vulnerability_dependency_scan:
     needs: terraform_infrastructure
