@@ -60,6 +60,7 @@ jobs:
         working-directory: terraform
         run: 
           terraform output -json > ../ansible/tf_output.json
+          cat ../ansible/tf_output.json
 
       - name: Get Role ARN Output
         working-directory: terraform
