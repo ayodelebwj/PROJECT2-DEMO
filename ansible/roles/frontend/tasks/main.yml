@@ -1,7 +1,4 @@
 ---
-- name: Change Git Clone Ownership To Ubuntu
-  command: sudo chown ubuntu:ubuntu /home/ubuntu/
-
 - name: Update Ubuntu
   apt:
     update_cache: yes
@@ -23,14 +20,14 @@
     enabled: yes
 
 - name: Mark repo as safe
-  command: git config --global --add safe.directory /home/ubuntu/class25-26-project2
+  command: git config --global --add safe.directory {{ app_dir }}
   become: true
   become_user: ubuntu
 
 - name: Clone the project repository
   git:
-    repo: https://github.com/techbleat/class25-26-project2.git
-    dest: /home/ubuntu/class25-26-project2
+    repo: {{git_repo}}
+    dest: {{ app_dir }}
 
 - name: Copy login.html to Nginx root
   copy:
@@ -70,5 +67,5 @@
   notify: Restart Nginx
 
 - name: Change Git Clone Ownership To Ubuntu
-  command: sudo chown ubuntu:ubuntu /home/ubuntu/class25-26-project2
+  command: sudo chown ubuntu:ubuntu {{ app_dir }}
   

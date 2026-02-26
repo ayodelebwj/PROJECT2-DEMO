@@ -1,7 +1,4 @@
 ---
-- name: Change Git Clone Ownership To Ubuntu
-  command: sudo chown ubuntu:ubuntu /home/ubuntu/
-  
 - name: Install Python venv package
   apt:
     name: python3.12-venv
@@ -11,26 +8,26 @@
   become: true
 
 - name: Mark repo as safe
-  command: git config --global --add safe.directory /home/ubuntu/class25-26-project2
+  command: git config --global --add safe.directory {{ app_dir }}
   become: true
   become_user: ubuntu
 
 - name: Clone Repo
   git:
-    repo: https://github.com/techbleat/class25-26-project2.git
-    dest: /home/ubuntu/class25-26-project2
+    repo: {{git_repo}}
+    dest: {{ app_dir }}
     version: main
 
 - name: Create venv
   command: python3 -m venv venv
   args:
-    chdir: /home/ubuntu/class25-26-project2
-    creates: /home/ubuntu/class25-26-project2/venv
+    chdir: {{ app_dir }}
+    creates: {{ app_dir }}/venv
 
 - name: Install requirements
-  command: /home/ubuntu/class25-26-project2/venv/bin/pip install -r requirements.txt
+  command: {{ app_dir }}/venv/bin/pip install -r requirements.txt
   args:
-    chdir: /home/ubuntu/class25-26-project2
+    chdir: {{ app_dir }}
 
 - name: Create systemd service file
   copy:
@@ -61,4 +58,4 @@
   become: true
 
 - name: Change Git Clone Ownership To Ubuntu
-  command: sudo chown ubuntu:ubuntu /home/ubuntu/class25-26-project2
+  command: sudo chown ubuntu:ubuntu {{ app_dir }}
