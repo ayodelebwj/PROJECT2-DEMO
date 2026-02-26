@@ -14,8 +14,8 @@
 
 - name: Clone Repo
   git:
-    repo: {{ git_repo }}
-    dest: {{ app_dir }}
+    repo: "{{ git_repo }}"
+    dest: "{{ app_dir }}"
     version: main
 
 - name: Create venv
