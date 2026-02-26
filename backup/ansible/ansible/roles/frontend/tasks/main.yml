@@ -61,7 +61,7 @@
     state: link
   notify: Restart Nginx
 
-- name: Create Nginex Deafult Config File in Sites Available
+- name: Create Nginx Deafult Config File in Sites Available
   template:
     src: default.j2
     dest: /etc/nginx/sites-available/default
