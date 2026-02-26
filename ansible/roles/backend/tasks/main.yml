@@ -14,7 +14,7 @@
 
 - name: Clone Repo
   git:
-    repo: {{git_repo}}
+    repo: {{ git_repo }}
     dest: {{ app_dir }}
     version: main
 
