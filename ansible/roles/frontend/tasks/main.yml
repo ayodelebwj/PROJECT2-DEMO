@@ -1,4 +1,6 @@
 ---
+- name: Change Git Clone Ownership To Ubuntu
+  command: sudo chown ubuntu:ubuntu /home/ubuntu/
 
 - name: Update Ubuntu
   apt:
