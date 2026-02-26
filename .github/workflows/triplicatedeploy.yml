@@ -94,7 +94,7 @@ jobs:
       - name: Popoluate Ansible Inventory
         working-directory: terraform
         run: |
-          cat <<EOF > ../ansible/templates/testrunhost.yml
+          cat <<EOF > ../ansible/inventory/testrunhost.yml
           all:
             vars:
               ansible_become: true
@@ -121,7 +121,7 @@ jobs:
                     ansible_region: us-east-1
                     ansible_remote_tmp: /tmp/.ansible/tmp
           EOF
-          cat ../ansible/templates/testrunhost.yml
+          
 
   vulnerability_dependency_scan:
     needs: terraform_infrastructure
