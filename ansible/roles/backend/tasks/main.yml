@@ -8,7 +8,7 @@
   become: true
 
 - name: Mark repo as safe
-  command: git config --global --add safe.directory {{ app_dir }}
+  command: git config --global --add safe.directory "{{ app_dir }}"
   become: true
   become_user: ubuntu
 
@@ -21,13 +21,13 @@
 - name: Create venv
   command: python3 -m venv venv
   args:
-    chdir: {{ app_dir }}
-    creates: {{ app_dir }}/venv
+    chdir: "{{ app_dir }}"
+    creates: "{{ app_dir }}/venv"
 
 - name: Install requirements
-  command: {{ app_dir }}/venv/bin/pip install -r requirements.txt
+  command: "{{ app_dir }}/venv/bin/pip install -r requirements.txt"
   args:
-    chdir: {{ app_dir }}
+    chdir: "{{ app_dir }}"
 
 - name: Create systemd service file
   copy:
@@ -58,4 +58,4 @@
   become: true
 
 - name: Change Git Clone Ownership To Ubuntu
-  command: sudo chown ubuntu:ubuntu {{ app_dir }}
+  command: "sudo chown ubuntu:ubuntu {{ app_dir }}"

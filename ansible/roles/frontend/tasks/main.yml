@@ -20,7 +20,7 @@
     enabled: yes
 
 - name: Mark repo as safe
-  command: git config --global --add safe.directory {{ app_dir }}
+  command: "git config --global --add safe.directory {{ app_dir }}"
   become: true
   become_user: ubuntu
 
@@ -31,13 +31,13 @@
 
 - name: Copy login.html to Nginx root
   copy:
-    src: /home/ubuntu/class25-26-project2/app/templates/login.html
+    src: "{{ app_dir }}/app/templates/login.html"
     dest: /var/www/html/login.html
     remote_src: yes
 
 - name: Copy home.html to Nginx root
   copy:
-    src: /home/ubuntu/class25-26-project2/app/templates/home.html
+    src: "{{ app_dir }}/app/templates/home.html"
     dest: /var/www/html/home.html
     remote_src: yes
 
@@ -67,5 +67,5 @@
   notify: Restart Nginx
 
 - name: Change Git Clone Ownership To Ubuntu
-  command: sudo chown ubuntu:ubuntu {{ app_dir }}
+  command: "sudo chown ubuntu:ubuntu {{ app_dir }}"
   
