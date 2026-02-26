@@ -91,38 +91,6 @@ jobs:
         run: 
           echo "frontend_inst_id=$(terraform output -raw frontend_instance_id)" >> $GITHUB_OUTPUT
 
-      - name: Popoluate Ansible Inventory
-        working-directory: terraform
-        run: |
-          cat <<EOF > ../ansible/inventory/testrunhost.yml
-          all:
-            vars:
-              ansible_become: true
-              ansible_become_method: sudo
-              ansible_become_user: root
-            children:
-              backend:
-                hosts:
-                  ${{ steps.tfbkinstid.outputs.backend_inst_id }}:
-                    ansible_connection: amazon.aws.aws_ssm
-                    ansible_user: ubuntu
-                    ansible_aws_ssm_region: us-east-1
-                    ansible_aws_ssm_bucket_name: techbleat744
-                    ansible_region: us-east-1
-                    ansible_remote_tmp: /tmp/.ansible/tmp
-
-              frontend:
-                hosts:
-                  ${{ steps.tfftinstid.outputs.frontend_inst_id }}:
-                    ansible_connection: amazon.aws.aws_ssm
-                    ansible_user: ubuntu
-                    ansible_aws_ssm_region: us-east-1
-                    ansible_aws_ssm_bucket_name: techbleat744
-                    ansible_region: us-east-1
-                    ansible_remote_tmp: /tmp/.ansible/tmp
-          EOF
-          
-
   vulnerability_dependency_scan:
     needs: terraform_infrastructure
     runs-on: ubuntu-latest
@@ -167,6 +135,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
       - name: Install Ansible and dependencies
         run: |
             python -m pip install --upgrade pip
@@ -184,7 +153,38 @@ jobs:
         with:
          role-to-assume: ${{ needs.terraform_infrastructure.outputs.role_arn }}
          aws-region: us-east-1
-         
+
+      - name: Popoluate Ansible Inventory
+        working-directory: ansible
+        run: |
+          cat <<EOF > inventory/testrunhost.yml
+          all:
+            vars:
+              ansible_become: true
+              ansible_become_method: sudo
+              ansible_become_user: root
+            children:
+              backend:
+                hosts:
+                  ${{ needs.terraform_infrastructure.outputs.backend_inst_id }}:
+                    ansible_connection: amazon.aws.aws_ssm
+                    ansible_user: ubuntu
+                    ansible_aws_ssm_region: us-east-1
+                    ansible_aws_ssm_bucket_name: techbleat744
+                    ansible_region: us-east-1
+                    ansible_remote_tmp: /tmp/.ansible/tmp
+
+              frontend:
+                hosts:
+                  ${{ needs.terraform_infrastructure.outputs.frontend_inst_id }}:
+                    ansible_connection: amazon.aws.aws_ssm
+                    ansible_user: ubuntu
+                    ansible_aws_ssm_region: us-east-1
+                    ansible_aws_ssm_bucket_name: techbleat744
+                    ansible_region: us-east-1
+                    ansible_remote_tmp: /tmp/.ansible/tmp
+          EOF
+                   
       - name: Run Ansible Playbook
         run: |
             ansible-playbook -i ansible/inventory/testrunhost.yml ansible/playbook.yml --extra-vars "backend_private_ip=${{ needs.terraform_infrastructure.outputs.backend_pri_ip }} frontend_public_ip=${{ needs.terraform_infrastructure.outputs.frontend_pub_ip }}" -vvvvv
