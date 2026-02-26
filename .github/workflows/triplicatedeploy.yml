@@ -167,6 +167,7 @@ jobs:
               frontend:
                 hosts:
                   ${{ needs.terraform_infrastructure.outputs.frontend_inst_id }}:
+                    ansible_remote_tmp: /tmp/.ansible/tmp
 
           EOF
                    
