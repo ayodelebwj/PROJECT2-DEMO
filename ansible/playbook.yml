@@ -35,7 +35,7 @@
     roles:
       - certbot
 
-  - name: INSTALL NODE EXPORTER
+  - name: INSTALL AND START NODE EXPORTER
     hosts: all
     become: true
     vars_files:
@@ -43,7 +43,7 @@
     roles:
       - node_exporter
 
-  - name: CONFIGURE CIS ALIGNED BASELINE 
+  - name: INSTALL AND START PROMETHEUS
     hosts: frontend
     become: true
     vars_files:
