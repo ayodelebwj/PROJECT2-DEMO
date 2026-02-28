@@ -12,6 +12,22 @@ resource "aws_security_group" "frontend_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description     = "Allow Prometheus metrics from INTERNET"
+    from_port       = 9090
+    to_port         = 9090
+    protocol        = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+   ingress {
+    description     = "Allow Node Exporter metrics from INTERNET"
+    from_port       = 9100
+    to_port         = 9100
+    protocol        = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
    # Allow SSH from ALB only..
   ingress {
     description     = "Allow SSH from INTERNET"
@@ -57,6 +73,14 @@ resource "aws_security_group" "backend_sg" {
     protocol        = "tcp"
     security_groups = [aws_security_group.frontend_sg.id]
   }
+
+  ingress {
+    description     = "Allow Node Exporter metrics from Prometheus"
+    from_port       = 9100
+    to_port         = 9100
+    protocol        = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }  
 
   # Allow all outbound traffic (required for SSM if no VPC endpoint)
   egress {
