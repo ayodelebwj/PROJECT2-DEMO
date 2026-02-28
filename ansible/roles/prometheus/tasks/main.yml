@@ -110,6 +110,19 @@
         enabled: yes
         state: started
 
+    - name: Backup Pormetheus config file
+      command: sudo mv /etc/prometheus/prometheus.yml /etc/prometheus/prometheus.yml.bak
+      become: true
+
+    - name: Create Nginx Deafult Config File in Sites Available
+      template:
+        src: prometheus.yml.j2
+        dest: /etc/prometheus/prometheus.yml
+        owner: "{{ prometheus_user }}"
+        group: "{{ prometheus_group }}"
+        mode: '0644'
+      notify: Restart Prometheus
+
     - name: Allow Prometheus port
       ufw:
         rule: allow
