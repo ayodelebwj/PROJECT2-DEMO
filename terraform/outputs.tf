@@ -3,6 +3,11 @@
         value = aws_instance.frontend_server.public_ip
       }
 
+
+      output frontend_private_ip {
+        value = aws_instance.frontend_server.private_ip
+      }
+
       output  backend_private_ip {
         value = aws_instance.backend_server.private_ip
       }

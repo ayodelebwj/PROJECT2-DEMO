@@ -2,3 +2,11 @@ app_user: ubuntu
 app_dir: /home/ubuntu/class25-26-project2
 venv_dir: /home/ubuntu/class25-26-project2/.venv
 git_repo: https://github.com/techbleat/class25-26-project2.git
+
+prometheus_version: "2.51.2"
+prometheus_user: "prometheus"
+prometheus_group: "prometheus"
+prometheus_install_dir: "/usr/local/bin"
+prometheus_config_dir: "/etc/prometheus"
+prometheus_data_dir: "/var/lib/prometheus"
+prometheus_tar: "prometheus-{{ prometheus_version }}.linux-amd64"

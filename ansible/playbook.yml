@@ -35,5 +35,21 @@
     roles:
       - certbot
 
+  - name: INSTALL NODE EXPORTER
+    hosts: all
+    become: true
+    vars_files:
+      - all.yml
+    roles:
+      - node_exporter
+
+  - name: CONFIGURE CIS ALIGNED BASELINE 
+    hosts: frontend
+    become: true
+    vars_files:
+      - frontend.yml
+    roles:
+      - prometheus
+
 
 

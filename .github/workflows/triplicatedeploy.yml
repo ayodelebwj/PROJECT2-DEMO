@@ -15,6 +15,7 @@ jobs:
     outputs:
       role_arn: ${{ steps.tf.outputs.role_arn }}
       frontend_pub_ip: ${{ steps.tfftpubip.outputs.frontend_pub_ip }}
+      frontend_pri_ip: ${{ steps.tfftpriip.outputs.frontend_pri_ip }}
       backend_pri_ip: ${{ steps.tfbkprip.outputs.backend_pri_ip }}
       frontend_inst_id: ${{ steps.tfftinstid.outputs.frontend_inst_id }}
       backend_inst_id: ${{ steps.tfbkinstid.outputs.backend_inst_id }}
@@ -72,6 +73,12 @@ jobs:
         id: tfftpubip
         run: 
           echo "frontend_pub_ip=$(terraform output -raw frontend_public_ip)" >> $GITHUB_OUTPUT
+
+      - name: Get Terraform Frontend Private IP
+        working-directory: terraform
+        id: tfftpriip
+        run: 
+          echo "frontend_pri_ip=$(terraform output -raw frontend_private_ip)" >> $GITHUB_OUTPUT
          
       - name: Get Terraform Backend Private IP
         working-directory: terraform
@@ -187,7 +194,7 @@ jobs:
                    
       - name: Run Ansible Playbook
         run: |
-            ansible-playbook -i ansible/inventory/testrunhost.yml ansible/playbook.yml --extra-vars "backend_private_ip=${{ needs.terraform_infrastructure.outputs.backend_pri_ip }} frontend_public_ip=${{ needs.terraform_infrastructure.outputs.frontend_pub_ip }}" -vvvvv
+            ansible-playbook -i ansible/inventory/testrunhost.yml ansible/playbook.yml --extra-vars "backend_private_ip=${{ needs.terraform_infrastructure.outputs.backend_pri_ip }} frontend_public_ip=${{ needs.terraform_infrastructure.outputs.frontend_pub_ip }} frontend_private_ip=${{ needs.terraform_infrastructure.outputs.frontend_pri_ip }}" -vvvvv
 
                                                                                                              
 
