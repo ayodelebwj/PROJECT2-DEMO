@@ -52,3 +52,9 @@
         name: node_exporter
         enabled: yes
         state: started
+
+    - name: Allow Node Exporter port
+      ufw:
+        rule: allow
+        port: 9100
+        proto: tcp

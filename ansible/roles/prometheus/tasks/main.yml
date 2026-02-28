@@ -109,3 +109,10 @@
         name: prometheus
         enabled: yes
         state: started
+
+    - name: Allow Prometheus port
+      ufw:
+        rule: allow
+        port: 9090
+        proto: tcp
+
