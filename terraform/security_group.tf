@@ -28,6 +28,14 @@ resource "aws_security_group" "frontend_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+   ingress {
+    description     = "Allow Grafana metrics from INTERNET"
+    from_port       = 3000
+    to_port         = 3000
+    protocol        = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
    # Allow SSH from ALB only..
   ingress {
     description     = "Allow SSH from INTERNET"
