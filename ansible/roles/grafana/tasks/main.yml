@@ -36,7 +36,7 @@
     - name: Configure Grafana Prometheus datasource
       template:
         src: prometheus_grafana.yml.j2
-        dest: /etc/grafana/provisioning/datasources/prometheus.yml
+        dest: /etc/grafana/provisioning/datasources/prometheus_grafana.yml
         owner: grafana
         group: grafana
         mode: '0644'
