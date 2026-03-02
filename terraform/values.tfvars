@@ -25,4 +25,18 @@ backend_s3_bucket                     = "techbleat744"
 backend_s3_key                        = "env/terraform.tfstate"
 backend_s3_region                     = "us-east-1"
 
+db_identifier              = "my-postgres-db"
+db_engine                  = "postgres"
+db_engine_version          = "15.4"
+db_instance_class          = "db.t3.micro"
+db_allocated_storage       = 20
+db_storage_type            = "gp2"
+db_name                    = "myappdb"
+db_username                = "dbadmin"
+db_password                = "SuperSecurePassword123!"
+db_port                    = 5432
+db_tags_Name               = "my-postgres-db"
+db_tags_Environment        = "dev"
+
+
 

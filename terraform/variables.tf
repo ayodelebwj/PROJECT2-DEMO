@@ -128,4 +128,65 @@ variable backend_s3_region {
     description = "The region of the S3 bucket for backend Terraform state"
     type        = string
 }
+
+variable db_identifier {
+    description = "The identifier for the RDS database instance"
+    type        = string
+}
+
+variable db_engine {
+    description = "The database engine to use for the RDS instance"
+    type        = string
+}
+
+variable db_engine_version {
+    description = "The version of the database engine for the RDS instance"
+    type        = string
+}
+
+variable db_instance_class {
+    description = "The instance class for the RDS database instance"
+    type        = string
+}
+
+variable db_allocated_storage {
+    description = "The allocated storage (in GB) for the RDS database instance"
+    type        = number
+}
+
+variable db_storage_type {
+    description = "The storage type for the RDS database instance"
+    type        = string
+}
+
+variable db_name {
+    description = "The name of the database to create in the RDS instance"
+    type        = string
+}
+
+variable db_username {
+    description = "The master username for the RDS database instance"
+    type        = string
+}
+
+variable db_password {
+    description = "The master password for the RDS database instance"
+    type        = string
+    sensitive   = true
+}
+
+variable db_port {
+    description = "The port number on which the RDS database instance will listen"
+    type        = number
+}
+
+variable db_tags_Name {
+    description = "The tag name for the RDS database instance"
+    type        = string
+}
+
+variable db_tags_Environment {
+    description = "The tag environment for the RDS database instance"
+    type        = string
+}
  

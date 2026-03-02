@@ -29,6 +29,9 @@
   args:
     chdir: "{{ app_dir }}"
 
+- name: Install Prometheus-Client
+  command: "{{ app_dir }}/venv/bin/pip install prometheus_client"
+
 - name: Create systemd service file
   copy:
     dest: "/etc/systemd/system/{{ app_name }}.service"
