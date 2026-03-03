@@ -23,12 +23,8 @@ build {
       #!/bin/bash
       # Update system packages
       "sudo apt update -y",
-      "sudo apt install -y snapd",
-      "sudo snap install core",
-      "sudo snap refresh core",
-      "sudo snap install amazon-ssm-agent --classic",
-      "sudo snap start amazon-ssm-agent",
-      "sudo snap enable amazon-ssm-agent"
+      "sudo systemctl enable amazon-ssm-agent",
+      "sudo systemctl start amazon-ssm-agent"
     ]
   }
 }
