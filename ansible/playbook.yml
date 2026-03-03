@@ -21,6 +21,8 @@
     become: true
     vars_files:
       - backend.yml
+    vars:
+      tf_outputs: "{{ lookup('file', 'tf_outputs.json') | from_json }}"
     roles:
       - backend
 

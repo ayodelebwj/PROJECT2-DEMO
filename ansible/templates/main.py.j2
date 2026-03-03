@@ -3,15 +3,21 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from itsdangerous import URLSafeSerializer, BadSignature
 from sqlalchemy import create_engine
+from jinja2 import Template
+from sqlalchemy import create_engine
 import os
 
-DATABASE_URL = "postgresql://{{ db_username }}:{{ db_password }}@{{ db_endpoint }}/{{ db_name }}"
+template_str = "postgresql+psycopg://{{ user }}:{{ password }}@{{ host }}/{{ dbname }}"
+t = Template(template_str)
 
-engine = create_engine(DATABASE_URL)
+DATABASE_URL = t.render(
+    user=os.environ["DB_USER"],
+    password=os.environ["DB_PASSWORD"],
+    host=os.environ["DB_HOST"],
+    dbname=os.environ["DB_NAME"]
+)
 
-with engine.connect() as connection:
-    result = connection.execute("SELECT now();")
-    print(result.fetchone())
+engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 
 APP_NAME = "fastapi_login"
 SECRET_KEY = os.environ.get("APP_SECRET_KEY", "change-me-in-prod")  # set via systemd env
