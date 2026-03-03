@@ -21,10 +21,11 @@ build {
   provisioner "shell" {
     inline_shebang = "/bin/bash -xe"
     inline = [
-    "sudo systemctl daemon-reload",
-    "sudo systemctl enable amazon-ssm-agent || true",
-    "sudo systemctl start amazon-ssm-agent || true",
-    "sudo systemctl status amazon-ssm-agent || true"
+      "sudo apt update -y",
+      "sudo snap install amazon-ssm-agent --classic",
+      "sudo systemctl enable snap.amazon-ssm-agent.amazon-ssm-agent.service",
+      "sudo systemctl start snap.amazon-ssm-agent.amazon-ssm-agent.service"
     ]
   }
 }
+
