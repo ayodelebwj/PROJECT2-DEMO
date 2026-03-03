@@ -17,6 +17,10 @@
     repo: "{{ git_repo }}"
     dest: "{{ app_dir }}"
     version: main
+    force: yes
+    user: ubuntu
+    group: ubuntu
+    
 
 - name: Copy main.py template
   template:
