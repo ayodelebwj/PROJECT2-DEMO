@@ -6,7 +6,44 @@ on:
       - main
 
 jobs:
+  packer_ami_template:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Install Packer
+        uses: hashicorp/setup-packer@v3
+
+      - name: Initialize Packer
+        working-directory: packer_ami
+        run: packer init .
+
+      - name: Validate Packer template
+        working-directory: packer_ami
+        run: packer validate .
+
+      - name: Build AMI
+        working-directory: packer_ami
+        run: packer build backend.pkr.hcl
+
+      - name: Build AMI
+        working-directory: packer_ami
+        run: packer build frontend.pkr.hcl
+
   terraform_infrastructure:
+    needs: packer_ami_template
     runs-on: ubuntu-latest
     permissions:
       id-token: write
