@@ -18,6 +18,11 @@
     dest: "{{ app_dir }}"
     version: main
 
+- name: Copy main.py template
+  template:
+    src: main.py.j2
+    dest: "{{ app_dir }}/app/main.py"
+
 - name: Create venv
   command: python3 -m venv venv
   args:
@@ -62,3 +67,4 @@
 
 - name: Change Git Clone Ownership To Ubuntu
   command: "sudo chown ubuntu:ubuntu {{ app_dir }}"
+  

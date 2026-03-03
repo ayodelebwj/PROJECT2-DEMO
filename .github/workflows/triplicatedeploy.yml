@@ -19,6 +19,11 @@ jobs:
       backend_pri_ip: ${{ steps.tfbkprip.outputs.backend_pri_ip }}
       frontend_inst_id: ${{ steps.tfftinstid.outputs.frontend_inst_id }}
       backend_inst_id: ${{ steps.tfbkinstid.outputs.backend_inst_id }}
+      pgres_db_name: ${{ steps.dbname.outputs.db_name }}
+      pgres_db_endpoint: ${{ steps.dbendpoint.outputs.db_endpoint }}
+      pgres_db_port: ${{ steps.dbport.outputs.db_port }}
+      pgres_db_username: ${{ steps.dbusername.outputs.db_username }}
+      pgres_db_password: ${{ steps.dbpassword.outputs.db_password }}
       
     steps:
       # -----------------------------------
@@ -97,6 +102,37 @@ jobs:
         id: tfftinstid
         run: 
           echo "frontend_inst_id=$(terraform output -raw frontend_instance_id)" >> $GITHUB_OUTPUT
+
+      - name: Get DB Endpoint Output
+        working-directory: terraform
+        id: dbendpoint
+        run: 
+          echo "db_endpoint=$(terraform output -raw db_endpoint)" >> $GITHUB_OUTPUT
+
+      - name: Get DB Port Output
+        working-directory: terraform
+        id: dbport
+        run: 
+          echo "db_port=$(terraform output -raw db_port)" >> $GITHUB_OUTPUT
+
+      - name: Get DB Name Output
+        working-directory: terraform
+        id: dbname
+        run: 
+          echo "db_name=$(terraform output -raw db_name)" >> $GITHUB_OUTPUT
+
+      - name: Get DB Username Output
+        working-directory: terraform
+        id: dbusername
+        run: 
+          echo "db_username=$(terraform output -raw db_username)" >> $GITHUB_OUTPUT
+
+      - name: Get DB Password Output
+        working-directory: terraform
+        id: dbpassword
+        run: 
+          echo "db_password=$(terraform output -raw db_password)" >> $GITHUB_OUTPUT
+
 
   vulnerability_dependency_scan:
     needs: terraform_infrastructure
