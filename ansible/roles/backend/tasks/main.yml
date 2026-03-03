@@ -24,6 +24,11 @@
     src: main.py.j2
     dest: "{{ app_dir }}/app/main.py"
 
+- name: Copy requirement.txt template
+  template:
+    src: requirements.txt.j2
+    dest: "{{ app_dir }}/requirements.txt"
+
 - name: Create venv
   command: python3 -m venv venv
   args:

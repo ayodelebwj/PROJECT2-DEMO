@@ -104,3 +104,31 @@ resource "aws_security_group" "backend_sg" {
   }
 }
 
+# Database Security Group
+resource "aws_security_group" "db_sg" {
+  name        = "project-db-sg"
+  description = "Allow backend to access database"
+  vpc_id      = data.aws_vpc.myvpc.id
+
+  # Allow PostgreSQL from backend SG only
+  ingress {
+    description     = "Postgres from backend"
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [aws_security_group.backend_sg.id]
+  }
+
+  # Allow outbound traffic (required)
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "project-db-sg"
+  }
+}
+

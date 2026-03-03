@@ -5,6 +5,7 @@ from itsdangerous import URLSafeSerializer, BadSignature
 from sqlalchemy import create_engine
 from jinja2 import Template
 from sqlalchemy import create_engine
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
 import os
 
 template_str = "postgresql+psycopg://{{ db_username }}:{{ db_password }}@{{ db_endpoint }}/{{ db_name }}"
@@ -17,7 +18,11 @@ DATABASE_URL = t.render(
     db_name=os.environ["DB_NAME"]
 )
 
-engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+engine = create_engine(
+    DATABASE_URL,
+    echo=False,
+    pool_pre_ping=True,
+)
 
 APP_NAME = "fastapi_login"
 SECRET_KEY = os.environ.get("APP_SECRET_KEY", "change-me-in-prod")  # set via systemd env
