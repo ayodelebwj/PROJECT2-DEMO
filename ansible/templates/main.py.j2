@@ -7,14 +7,14 @@ from jinja2 import Template
 from sqlalchemy import create_engine
 import os
 
-template_str = "postgresql+psycopg://{{ user }}:{{ password }}@{{ host }}/{{ dbname }}"
+template_str = "postgresql+psycopg://{{ db_username }}:{{ db_password }}@{{ db_endpoint }}/{{ db_name }}"
 t = Template(template_str)
 
 DATABASE_URL = t.render(
-    user=os.environ["DB_USER"],
-    password=os.environ["DB_PASSWORD"],
-    host=os.environ["DB_HOST"],
-    dbname=os.environ["DB_NAME"]
+    db_username=os.environ["DB_USER"],
+    db_password=os.environ["DB_PASSWORD"],
+    db_endpoint=os.environ["DB_HOST"],
+    db_name=os.environ["DB_NAME"]
 )
 
 engine = create_engine(DATABASE_URL, pool_pre_ping=True)
