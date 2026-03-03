@@ -1,25 +1,9 @@
-#================================================================
 #RETRIEVES UBUNTU AMI FROM AWS STORE TO PROVISION AMI TEMPLATE VM
-#================================================================
 data "amazon-parameterstore" "python_ubuntu_params" {
   name = "/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id"
 }
 
-
-data "amazon-ami" "ubuntu" {
-  most_recent = true
-  owners      = ["099720109477"]
-
-  filters = {
-    name                = "ubuntu/images/hvm-ssd/ubuntu-noble-24.04-amd64-server-*"
-    root-device-type    = "ebs"
-    virtualization-type = "hvm"
-  }
-}
-
-#================================================================
 #CREATES THE INSTANCE NEEDED TO BUILD AMI AND CREATE A TEMPLATE
-#================================================================
 source "amazon-ebs" "backend_vm_source" {
   region        = "us-east-1"
   instance_type = "t2.micro"
@@ -29,9 +13,7 @@ source "amazon-ebs" "backend_vm_source" {
 }
 
 
-#================================================================
 #BUILDS THE PYTHON SERVER AMI TEMPLATE
-#================================================================
 build {
   name    = "backend_build"
   sources = ["source.amazon-ebs.backend_vm_source"]
