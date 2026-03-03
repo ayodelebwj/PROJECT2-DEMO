@@ -22,8 +22,11 @@ build {
     inline_shebang = "/bin/bash -xe"
     inline = [
       "sudo apt update -y",
-      "sudo systemctl enable amazon-ssm-agent",
-      "sudo systemctl start amazon-ssm-agent"
+      "sudo apt install -y snapd",
+      "sudo snap install core",
+      "sudo snap refresh core", 
+      "sudo systemctl start amazon-ssm-agent",
+      "sudo systemctl enable amazon-ssm-agent"
     ]
   }
 }

@@ -9,7 +9,7 @@ source "amazon-ebs" "web-vm-source" {
   instance_type = "t2.micro"
   ssh_username  = "ubuntu"
   source_ami    = data.amazon-parameterstore.web_ubuntu_params.value
-  ami_name      = "web-ami"
+  ami_name      = "frontend-ami-{{timestamp}}"
 }
 
 #BUILDS THE NGINX WEB SERVER AMI TEMPLATE
@@ -23,8 +23,14 @@ build {
       #!/bin/bash
       # Update system packages
       "sudo apt update -y",
-      "sudo systemctl enable amazon-ssm-agent",
-      "sudo systemctl start amazon-ssm-agent"
+      "sudo apt install -y snapd",
+      "sudo snap install core",
+      "sudo snap refresh core", 
+      "sudo systemctl start amazon-ssm-agent",
+      "sudo systemctl enable amazon-ssm-agent"
     ]
   }
 }
+
+
+
