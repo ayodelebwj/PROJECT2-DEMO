@@ -1,12 +1,4 @@
 ---
-- name: Export DB Credentials as Environment Variables
-  command:
-    export DB_USER={{ tf_output.db_username.value }}
-    export DB_PASSWORD={{ tf_output.db_password.value }}
-    export DB_HOST={{ tf_output.db_endpoint.value }}
-    export DB_NAME={{ tf_output.db_name.value }}
-  become: true
-
 - name: Install Python venv package
   apt:
     name: python3.12-venv
@@ -55,6 +47,10 @@
       After=network.target
 
       [Service]
+      Environment="DB_USER={{ db_username }}"
+      Environment="DB_PASSWORD={{ db_password }}"
+      Environment="DB_HOST={{ db_endpoint }}"
+      Environment="DB_NAME={{ db_name }}"
       User={{ app_user }}
       Group={{ app_user }}
       WorkingDirectory={{ app_dir }}
