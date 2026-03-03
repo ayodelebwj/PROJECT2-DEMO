@@ -10,6 +10,10 @@ source "amazon-ebs" "backend_vm_source" {
   ssh_username  = "ubuntu"
   source_ami    = data.amazon-parameterstore.python_ubuntu_params.value
   ami_name      = "backend-ami-{{timestamp}}"
+
+  tags = {
+  Project     = "backend"
+  }
 }
 
 

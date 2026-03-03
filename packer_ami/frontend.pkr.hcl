@@ -10,6 +10,10 @@ source "amazon-ebs" "web-vm-source" {
   ssh_username  = "ubuntu"
   source_ami    = data.amazon-parameterstore.web_ubuntu_params.value
   ami_name      = "frontend-ami-{{timestamp}}"
+
+  tags = {
+  Project     = "frontend"
+  }
 }
 
 #BUILDS THE NGINX WEB SERVER AMI TEMPLATE
@@ -23,12 +27,9 @@ build {
       #!/bin/bash
       # Update system packages
       "sudo apt update -y",
-      "sudo apt install -y snapd",
-      "sudo snap install core",
-      "sudo snap refresh core",
       "sudo snap install amazon-ssm-agent --classic",
-      "sudo snap start amazon-ssm-agent",
-      "sudo snap enable amazon-ssm-agent"
+      "sudo systemctl enable snap.amazon-ssm-agent.amazon-ssm-agent.service",
+      "sudo systemctl start snap.amazon-ssm-agent.amazon-ssm-agent.service"
     ]
   }
 }
