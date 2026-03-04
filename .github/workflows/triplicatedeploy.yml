@@ -43,7 +43,7 @@ jobs:
         run: packer build frontend.pkr.hcl
 
   terraform_infrastructure:
-    needs: packer_ami_template
+    #needs: packer_ami_template
     runs-on: ubuntu-latest
     permissions:
       id-token: write
