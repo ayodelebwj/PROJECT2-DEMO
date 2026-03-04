@@ -31,11 +31,5 @@ build {
       "sudo systemctl start snap.amazon-ssm-agent.amazon-ssm-agent.service"
     ]
   }
-
-    # This is the key part to tag the final AMI
-  ami_tags = {
-    Project = "backend"
-    Owner   = "DevOpsTeam"
-  }
 }
 

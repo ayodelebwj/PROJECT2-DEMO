@@ -34,10 +34,6 @@ build {
   }
 
     # This is the key part to tag the final AMI
-  ami_tags = {
-    Project = "frontend"
-    Owner   = "DevOpsTeam"
-  }
 }
 
 
