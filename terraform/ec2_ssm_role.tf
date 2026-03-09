@@ -1,4 +1,4 @@
-# IAM Role
+# IAM Role.
 resource "aws_iam_role" "ssm_role" {
   name = "ssm_role"
 
