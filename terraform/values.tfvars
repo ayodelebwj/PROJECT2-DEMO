@@ -1,6 +1,7 @@
 policy_arn                            = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 vpc_id                                = "vpc-039ab40de09df2d30"
 private_subnet_id                     = "subnet-0c6ab2a40abf8d516"
+private_subnet_2_id                   = "subnet-04bceb094ef56f08f"
 public_subnet_id                      = "subnet-0e7c30f99b3fd1f62"
 frontend_sg_name                      = "frontend-sg"
 frontend_sg_tag_name                  = "frontend-sg"
@@ -24,7 +25,6 @@ frontend_server_tags_Role             = "frontend"
 backend_s3_bucket                     = "techbleat744"
 backend_s3_key                        = "env/terraform.tfstate"
 backend_s3_region                     = "us-east-1"
-
 db_identifier              = "my-postgres-db"
 db_engine                  = "postgres"
 db_engine_version          = "15.4"
@@ -37,6 +37,9 @@ db_password                = "SuperSecurePassword123!"
 db_port                    = 5432
 db_tags_Name               = "my-postgres-db"
 db_tags_Environment        = "dev"
+private_subnet_cidr_1 = "10.0.2.0/24"
+private_subnet_cidr_2 = "10.0.4.0/24"
+  
 
 
 

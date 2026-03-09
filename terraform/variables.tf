@@ -13,6 +13,11 @@ variable private_subnet_id {
     type        = string
 }
 
+variable private_subnet_2_id {
+    description = "The ID of the second private subnet for backend instances"
+    type        = string
+}
+
 variable public_subnet_id {
     description = "The ID of the public subnet for frontend instances"
     type        = string
@@ -189,4 +194,14 @@ variable db_tags_Environment {
     description = "The tag environment for the RDS database instance"
     type        = string
 }
- 
+
+
+variable private_subnet_cidr_1 {
+    description = "The Private subnet 1 CIDR blocks allowed for SSM endpoint ingress"
+    type        = string
+}
+
+variable private_subnet_cidr_2 {
+    description = "The Private subnet 2 CIDR blocks allowed for SSM endpoint ingress"
+    type        = string
+} 
