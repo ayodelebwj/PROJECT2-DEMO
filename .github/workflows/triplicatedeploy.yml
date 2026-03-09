@@ -7,6 +7,7 @@ on:
 
 jobs:
   packer_ami_template:
+    if: false
     runs-on: ubuntu-latest
 
     env:
@@ -97,7 +98,7 @@ jobs:
       - name: Terraform Apply
         working-directory: terraform
         run: 
-          terraform destroy --auto-approve -var-file=values.tfvars
+          terraform apply --auto-approve -var-file=values.tfvars
 
       - name: Terraform Output for Ansible Variables
         working-directory: terraform
