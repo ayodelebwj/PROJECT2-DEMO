@@ -5,6 +5,7 @@ resource "aws_vpc_endpoint" "ssm" {
   vpc_endpoint_type = "Interface"
   subnet_ids        = [var.private_subnet_id, var.private_subnet_2_id]  
   security_group_ids = [aws_security_group.ssm_endpoint_sg.id]
+  private_dns_enabled = true
 }
 
 resource "aws_vpc_endpoint" "ec2_messages" {
@@ -13,6 +14,7 @@ resource "aws_vpc_endpoint" "ec2_messages" {
   vpc_endpoint_type = "Interface"
   subnet_ids        = [var.private_subnet_id, var.private_subnet_2_id]
   security_group_ids = [aws_security_group.ssm_endpoint_sg.id]
+  private_dns_enabled = true
 }
 
 resource "aws_vpc_endpoint" "ssm_messages" {
@@ -21,6 +23,7 @@ resource "aws_vpc_endpoint" "ssm_messages" {
   vpc_endpoint_type = "Interface"
   subnet_ids        = [var.private_subnet_id, var.private_subnet_2_id]
   security_group_ids = [aws_security_group.ssm_endpoint_sg.id]
+  private_dns_enabled = true
 }
 
 # Optional: S3 gateway endpoint for artifacts
