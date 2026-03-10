@@ -145,7 +145,6 @@ resource "aws_security_group" "ssm_endpoint_sg" {
     protocol    = "tcp"
     #cidr_blocks = [var.private_subnet_cidr_1, var.private_subnet_cidr_2]  # your private subnet CIDR
     security_groups = [aws_security_group.backend_sg.id]
-
   }
 
   egress {
