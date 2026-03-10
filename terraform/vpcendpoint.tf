@@ -1,5 +1,5 @@
 # Create VPC Interface Endpoints
-resource "aws_vpc_endpoint" "ssm" {
+/*resource "aws_vpc_endpoint" "ssm" {
   vpc_id            = data.aws_vpc.myvpc.id
   service_name      = "com.amazonaws.us-east-1.ssm"
   vpc_endpoint_type = "Interface"
@@ -24,7 +24,7 @@ resource "aws_vpc_endpoint" "ssm_messages" {
   subnet_ids        = [var.private_subnet_id, var.private_subnet_2_id]
   security_group_ids = [aws_security_group.ssm_endpoint_sg.id]
   #private_dns_enabled = true
-}
+}*/
 
 # Optional: S3 gateway endpoint for artifacts
 #resource "aws_vpc_endpoint" "s3" {
