@@ -144,7 +144,8 @@ resource "aws_security_group" "ssm_endpoint_sg" {
     to_port     = 443
     protocol    = "tcp"
     #cidr_blocks = [var.private_subnet_cidr_1, var.private_subnet_cidr_2]  # your private subnet CIDR
-    security_groups = [aws_security_group.backend_sg.id]
+    #security_groups = [aws_security_group.backend_sg.id]
+    cidr_blocks = ["10.0.0.0/16"]
   }
 
   egress {
