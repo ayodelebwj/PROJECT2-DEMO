@@ -1,4 +1,4 @@
-# Create VPC Interface Endpoints
+# Create VPC Interface Endpoints.
 resource "aws_vpc_endpoint" "ssm" {
   vpc_id            = data.aws_vpc.myvpc.id
   service_name      = "com.amazonaws.us-east-1.ssm"
