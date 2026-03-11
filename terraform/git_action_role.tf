@@ -71,6 +71,7 @@ resource "aws_iam_policy" "github_actions_ec2_policy" {
           "ssm:DescribeInstanceInformation",
           "ssm:GetConnectionStatus",
           "ssm:DescribeSessions",
+          "ssm:SendCommand",
           "ssm:TerminateSession"
         ],
         Resource = "*"
