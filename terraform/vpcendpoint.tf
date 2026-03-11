@@ -27,9 +27,9 @@ resource "aws_vpc_endpoint" "ssm_messages" {
 }
 
 # Optional: S3 gateway endpoint for artifacts
-#resource "aws_vpc_endpoint" "s3" {
- # vpc_id            = data.aws_vpc.myvpc.id
- # service_name      = "com.amazonaws.us-east-1.s3"
-  #vpc_endpoint_type = "Gateway"
- # route_table_ids   = ["rtb-11111111", "rtb-22222222"]
-#}
+resource "aws_vpc_endpoint" "s3" {
+  vpc_id            = data.aws_vpc.myvpc.id
+  service_name      = "com.amazonaws.us-east-1.s3"
+  vpc_endpoint_type = "Gateway"
+  route_table_ids   = ["rtb-0aa8ac37682f25521"]
+}
