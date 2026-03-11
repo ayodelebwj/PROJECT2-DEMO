@@ -20,8 +20,36 @@ resource "aws_iam_role_policy_attachment" "ssm_attach" {
   policy_arn = var.policy_arn
 }
 
+resource "aws_iam_role_policy" "ssm_session_policy" {
+  name = "ssm_session_policy"
+  role = aws_iam_role.ssm_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ssm:DescribeInstanceInformation",
+          "ssm:SendCommand",
+          "ssm:StartSession",
+          "ssm:TerminateSession",
+          "ssm:DescribeSessions",
+          "ssm:GetConnectionStatus"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
+
 # Instance Profile
 resource "aws_iam_instance_profile" "ssm_profile" {
   name = "ssm_profile"
   role = aws_iam_role.ssm_role.name
 }
+
+
+
+
+
