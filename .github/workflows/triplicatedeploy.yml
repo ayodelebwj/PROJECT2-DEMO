@@ -64,7 +64,7 @@ jobs:
       pgres_db_password: ${{ steps.dbpassword.outputs.db_password }}
       
     steps:
-      # -----------------------------------
+      # -------------------------------------
       # Checkout repo
       # -----------------------------------
       - name: Checkout repository
