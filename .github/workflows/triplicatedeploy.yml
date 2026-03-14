@@ -194,6 +194,14 @@ jobs:
 
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
+        with:
+          args: detect --source=. --report=gitleaks-report.json --report-format=json
+
+      - name: Upload Gitleaks Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: gitleaks-report
+          path: gitleaks-report.json
 
 
   openscap_scan:
@@ -207,10 +215,8 @@ jobs:
      - name: Install OpenSCAP
        run: |
          sudo apt-get update
-         sudo apt-get install -y \
-           libopenscap8 \
-           openscap-scanner \
-           scap-security-guide
+         sudo apt install -y openscap-utils ssg-base
+         sudo apt-get install -y libopenscap8 openscap-scanner scap-security-guide
 
      - name: Verify OpenSCAP installation
        run: |
