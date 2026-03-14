@@ -7,7 +7,6 @@ on:
 
 jobs:
   packer_ami_template:
-    if: false
     runs-on: ubuntu-latest
 
     env:
