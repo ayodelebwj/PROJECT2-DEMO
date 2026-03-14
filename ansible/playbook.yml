@@ -38,7 +38,7 @@
     roles:
       - prometheus
 
-  - name: INSTALL AND START PROMETHEUS
+  - name: INSTALL AND START GRAFANA
     hosts: frontend
     become: true
     roles:
