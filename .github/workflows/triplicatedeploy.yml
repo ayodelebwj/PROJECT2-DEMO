@@ -7,6 +7,7 @@ on:
 
 jobs:
   packer_ami_template:
+    if: false
     runs-on: ubuntu-latest
 
     env:
@@ -43,7 +44,7 @@ jobs:
         run: packer build frontend.pkr.hcl
 
   terraform_infrastructure:
-    needs: packer_ami_template
+    #needs: packer_ami_template
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -202,6 +203,43 @@ jobs:
         with:
           name: gitleaks-report
           path: gitleaks-report.json
+
+
+  openscap_scan:
+    name: OpenSCAP Compliance Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install OpenSCAP
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libopenscap8 \
+            openscap-scanner \
+            scap-security-guide
+
+      - name: Verify OpenSCAP installation
+        run: |
+          oscap --version
+
+      - name: Run CIS compliance scan
+        run: |
+          sudo oscap xccdf eval \
+          --profile xccdf_org.ssgproject.content_profile_cis \
+          --results scan-results.xml \
+          --report scan-report.html \
+          /usr/share/xml/scap/ssg/content/ssg-ubuntu2204-ds.xml
+
+      - name: Upload OpenSCAP report
+        uses: actions/upload-artifact@v4
+        with:
+          name: openscap-report
+          path: |
+            scan-results.xml
+            scan-report.html
 
 
   ansible_configuration:

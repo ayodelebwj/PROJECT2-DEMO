@@ -24,9 +24,9 @@ scrape_configs:
       - targets: ["localhost:9090"]
 
   # ==============================
-  # Example Backend App (Optional)
+  # Example Backend App 
   # ==============================
-  - job_name: "backend_app"
+  - job_name: "backend_fast_app"
     metrics_path: /metrics
     static_configs:
       - targets: ["{{ backend_private_ip }}:8000"]
