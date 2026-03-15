@@ -7,6 +7,7 @@ on:
 
 jobs:
   packer_ami_template:
+    if: false
     runs-on: ubuntu-latest
 
     env:
@@ -43,7 +44,7 @@ jobs:
         run: packer build frontend.pkr.hcl
 
   terraform_infrastructure:
-    needs: packer_ami_template
+    #needs: packer_ami_template
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -216,7 +217,7 @@ jobs:
       - name: Install OpenSCAP
         run: |
           sudo apt-get update
-          sudo apt-get install -y openscap-utils openscap-scanner ssg-base
+          sudo apt-get install -y openscap-utils ssg-base
 
       - name: Install Ubuntu benchmark content
         run: |
@@ -240,7 +241,7 @@ jobs:
           name: openscap-report
           path: |
             scan-results.xml
-            scan-report.html
+            scan-report.html*/
 
 
   ansible_configuration:
