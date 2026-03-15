@@ -97,7 +97,7 @@ jobs:
       - name: Terraform Apply
         working-directory: terraform
         run: 
-          terraform destroy --auto-approve -var-file=values.tfvars
+          terraform apply --auto-approve -var-file=values.tfvars
 
       - name: Terraform Output for Ansible Variables
         working-directory: terraform
@@ -170,7 +170,7 @@ jobs:
         run: 
           echo "db_password=$(terraform output -raw db_password)" >> $GITHUB_OUTPUT
 
-
+#checks for vulnerability in current code
   vulnerability_dependency_scan:
     needs: terraform_infrastructure
     runs-on: ubuntu-latest
@@ -185,6 +185,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
+#checks for leaks in secrets
   secrets_scan:
     needs: vulnerability_dependency_scan
     runs-on: ubuntu-latest
@@ -203,7 +204,7 @@ jobs:
           name: gitleaks-report
           path: gitleaks-report.json
 
-
+#checks for vulnerability in OS
   openscap_scan:
     name: OpenSCAP Compliance Scan
     runs-on: ubuntu-latest
@@ -215,10 +216,11 @@ jobs:
       - name: Install OpenSCAP
         run: |
           sudo apt-get update
-          sudo apt-get install -y \
-            libopenscap8 \
-            openscap-scanner \
-            scap-security-guide
+          sudo apt-get install -y openscap-utils openscap-scanner ssg-base
+
+      - name: Install Ubuntu benchmark content
+        run: |
+          sudo apt-get install -y ssg-ubuntu2204
 
       - name: Verify OpenSCAP installation
         run: |
