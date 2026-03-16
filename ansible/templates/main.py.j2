@@ -24,13 +24,18 @@ engine = create_engine(
     pool_pre_ping=True,
 )
 
+load_dotenv()
+SECRET_KEY = os.environ["APP_SECRET_KEY"]
+DEMO_USER = os.environ["APP_DEMO_USER"]
+DEMO_PASS = os.environ["APP_DEMO_PASS"]
+
 APP_NAME = "fastapi_login"
-SECRET_KEY = os.environ.get("APP_SECRET_KEY", "change-me-in-prod")  # set via systemd env
+#####SECRET_KEY = os.environ.get("APP_SECRET_KEY", "change-me-in-prod")  # set via systemd env
 COOKIE_NAME = "session"
 
 # Demo credentials (replace with real auth later)
-DEMO_USER = os.environ.get("APP_DEMO_USER", "admin")
-DEMO_PASS = os.environ.get("APP_DEMO_PASS", "admin")
+#####DEMO_USER = os.environ.get("APP_DEMO_USER", "admin")
+#####DEMO_PASS = os.environ.get("APP_DEMO_PASS", "admin")
 
 serializer = URLSafeSerializer(SECRET_KEY, salt=APP_NAME)
 
