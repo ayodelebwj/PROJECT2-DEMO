@@ -1,4 +1,0 @@
----
-# Default values for security_scans role.
-sonar_project_key: "ayodelebwj"
-reports_dir: "reports"
