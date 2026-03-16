@@ -6,7 +6,6 @@ from sqlalchemy import create_engine
 from jinja2 import Template
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
-from prometheus_fastapi_instrumentator import Instrumentator
 import os
 
 template_str = "postgresql+psycopg://{{ db_username }}:{{ db_password }}@{{ db_endpoint }}/{{ db_name }}"
@@ -36,10 +35,6 @@ DEMO_PASS = os.environ.get("APP_DEMO_PASS", "admin")
 serializer = URLSafeSerializer(SECRET_KEY, salt=APP_NAME)
 
 app = FastAPI()
-
-# enable prometheus metrics
-Instrumentator().instrument(app).expose(app)
-
 templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), "templates"))
 
 
