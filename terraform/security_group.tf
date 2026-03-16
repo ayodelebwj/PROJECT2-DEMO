@@ -133,7 +133,7 @@ resource "aws_security_group" "db_sg" {
 }
 
 # Security group for VPC endpoints
-resource "aws_security_group" "ssm_endpoint_sg" {
+/*resource "aws_security_group" "ssm_endpoint_sg" {
   name        = "ssm-endpoint-sg"
   description = "Allow private instances to access SSM endpoints"
   vpc_id      = data.aws_vpc.myvpc.id
@@ -155,6 +155,6 @@ resource "aws_security_group" "ssm_endpoint_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-}
+}*/
 
 

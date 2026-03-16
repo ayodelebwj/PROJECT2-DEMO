@@ -1,5 +1,5 @@
 # Create VPC Interface Endpoints.
-resource "aws_vpc_endpoint" "ssm" {
+/*resource "aws_vpc_endpoint" "ssm" {
   vpc_id            = data.aws_vpc.myvpc.id
   service_name      = "com.amazonaws.us-east-1.ssm"
   vpc_endpoint_type = "Interface"
@@ -32,4 +32,4 @@ resource "aws_vpc_endpoint" "s3" {
   service_name      = "com.amazonaws.us-east-1.s3"
   vpc_endpoint_type = "Gateway"
   route_table_ids   = ["rtb-0aa8ac37682f25521"]
-}
+}*/
