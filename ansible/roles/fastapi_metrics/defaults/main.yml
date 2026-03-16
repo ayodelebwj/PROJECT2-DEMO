@@ -1,2 +1,0 @@
-python_virtualenv: /home/ubuntu/class25-26-project2/venv
-metrics_package: prometheus-fastapi-instrumentator

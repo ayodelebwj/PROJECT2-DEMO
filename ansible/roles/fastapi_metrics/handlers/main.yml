@@ -1,4 +1,0 @@
-- name: restart backend
-  ansible.builtin.systemd:
-    name: backend-app
-    state: restarted
