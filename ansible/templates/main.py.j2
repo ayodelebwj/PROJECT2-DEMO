@@ -7,6 +7,7 @@ from jinja2 import Template
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
 from dotenv import load_dotenv
+from prometheus_fastapi_instrumentator import Instrumentator
 import os
 
 load_dotenv()
@@ -28,22 +29,20 @@ engine = create_engine(
 )
 
 
+# Demo credentials (replace with real auth later)
 SECRET_KEY = os.environ["APP_SECRET_KEY"]
 DEMO_USER = os.environ["APP_DEMO_USER"]
 DEMO_PASS = os.environ["APP_DEMO_PASS"]
-
 APP_NAME = "fastapi_login"
-
 COOKIE_NAME = "session"
 
-# Demo credentials (replace with real auth later)
 
 
 serializer = URLSafeSerializer(SECRET_KEY, salt=APP_NAME)
 
 app = FastAPI()
 templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), "templates"))
-
+Instrumentator().instrument(app).expose(app)
 
 def set_session(response: RedirectResponse, username: str) -> None:
     token = serializer.dumps({"u": username})
