@@ -197,12 +197,12 @@ jobs:
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
         with:
-          args: detect --source . --report-format sarif --report-path scan_report/gitleaks.sarif
+          args: detect --source . --report-format sarif --report-path gitleaks.sarif
 
-      - name: Upload SARIF
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: scan_report/gitleaks.sarif
+      #- name: Upload SARIF
+       # uses: github/codeql-action/upload-sarif@v3
+       # with:
+       #   sarif_file: scan_report/gitleaks.sarif
  
   ansible_configuration:
     runs-on: ubuntu-latest
