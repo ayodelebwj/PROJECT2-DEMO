@@ -33,7 +33,7 @@ DEMO_USER = os.environ["APP_DEMO_USER"]
 DEMO_PASS = os.environ["APP_DEMO_PASS"]
 
 APP_NAME = "fastapi_login"
-SECRET_KEY = os.environ.get("APP_SECRET_KEY", {{ SECRET_KEYSSS }})  # set via systemd env
+# SECRET_KEY = os.environ.get("APP_SECRET_KEY", {{ SECRET_KEYSSS }})  # set via systemd env
 COOKIE_NAME = "session"
 
 # Demo credentials (replace with real auth later)
