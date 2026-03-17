@@ -186,7 +186,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-#checks for leaks in secrets
+#checks for leaks in secrets.
   secrets_scan:
     needs: vulnerability_dependency_scan
     runs-on: ubuntu-latest
