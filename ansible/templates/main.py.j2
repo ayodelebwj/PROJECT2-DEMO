@@ -6,7 +6,10 @@ from sqlalchemy import create_engine
 from jinja2 import Template
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 template_str = "postgresql+psycopg://{{ db_username }}:{{ db_password }}@{{ db_endpoint }}/{{ db_name }}"
 t = Template(template_str)
@@ -24,18 +27,18 @@ engine = create_engine(
     pool_pre_ping=True,
 )
 
-load_dotenv()
-SECRET_KEYSSS = os.environ["APP_SECRET_KEY"]
-DEMO_APPUSER = os.environ["APP_DEMO_USER"]
-DEMO_PASSWORD = os.environ["APP_DEMO_PASS"]
+
+SECRET_KEY = os.environ["APP_SECRET_KEY"]
+DEMO_USER = os.environ["APP_DEMO_USER"]
+DEMO_PASS = os.environ["APP_DEMO_PASS"]
 
 APP_NAME = "fastapi_login"
 SECRET_KEY = os.environ.get("APP_SECRET_KEY", {{ SECRET_KEYSSS }})  # set via systemd env
 COOKIE_NAME = "session"
 
 # Demo credentials (replace with real auth later)
-DEMO_USER = os.environ.get("APP_DEMO_USER", {{ DEMO_APPUSER }})
-DEMO_PASS = os.environ.get("APP_DEMO_PASS", {{ DEMO_PASSWORD }})
+# DEMO_USER = os.environ.get("APP_DEMO_USER", {{ DEMO_APPUSER }})
+# DEMO_PASS = os.environ.get("APP_DEMO_PASS", {{ DEMO_PASSWORD }})
 
 serializer = URLSafeSerializer(SECRET_KEY, salt=APP_NAME)
 
