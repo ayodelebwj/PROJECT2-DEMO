@@ -34,7 +34,7 @@ build {
       "sudo systemctl enable nginx",
       "sudo systemctl start nginx",
       "sudo touch /var/www/html/health",
-      "sudo echo OK > /var/www/html/health",
+      "echo OK | sudo tee /var/www/html/health",
       "sudo systemctl daemon-reload",
       "sudo systemctl restart nginx",
       "sudo apt -y install git",
