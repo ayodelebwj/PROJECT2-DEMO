@@ -62,6 +62,10 @@ jobs:
       pgres_db_port: ${{ steps.dbport.outputs.db_port }}
       pgres_db_username: ${{ steps.dbusername.outputs.db_username }}
       pgres_db_password: ${{ steps.dbpassword.outputs.db_password }}
+      backend_arn: ${{ steps.betgarn.outputs.BK_END_TG_ARN }}
+      frontend_arn: ${{ steps.fetgarn.outputs.FR_END_TG_ARN }}
+
+      
       
     steps:
       # -------------------------------------
@@ -110,6 +114,16 @@ jobs:
         id: tf
         run: 
           echo "role_arn=$(terraform output -raw github_actions_role)" >> $GITHUB_OUTPUT
+
+      - name: Get Terraform Output Frontend Target Group Arn
+        working-directory: terraform
+        id: fetgarn
+        run: echo "FR_END_TG_ARN=$(terraform output -raw frontend_tg_arn)" >> $GITHUB_OUTPUT
+
+      - name: Get Terraform Output Backend Target Group Arn
+        working-directory: terraform
+        id: betgarn
+        run: echo "BK_END_TG_ARN=$(terraform output -raw backend_tg_arn)" >> $GITHUB_OUTPUT
 
       - name: Get Terraform Frontend Public IP
         working-directory: terraform
@@ -190,6 +204,7 @@ jobs:
   secrets_scan:
     needs: vulnerability_dependency_scan
     runs-on: ubuntu-latest
+    
 
     steps:
       - uses: actions/checkout@v3
@@ -202,7 +217,7 @@ jobs:
       #- name: Upload SARIF
        # uses: github/codeql-action/upload-sarif@v3
        # with:
-       #   sarif_file: scan_report/gitleaks.sarif
+       #   sarif_file: gitleaks.sarif
  
   ansible_configuration:
     runs-on: ubuntu-latest
@@ -235,13 +250,52 @@ jobs:
 
       - name: Install amazon.aws collection
         run: |
-            ansible-galaxy collection install amazon.aws
+            ansible-galaxy collection install amazon.aws community.aws
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
          role-to-assume: ${{ needs.terraform_infrastructure.outputs.role_arn }}
          aws-region: us-east-1
+
+      - name: Discover Instances Behind Target Group
+        run: |
+          aws elbv2 describe-target-health --target-group-arn $FR_END_TG_ARN --query 'TargetHealthDescriptions[].Target.Id' --output text > frontend_instance_ids.txt
+
+      - name: Discover Instances Behind Target Group
+        run: |
+          aws elbv2 describe-target-health --target-group-arn $BK_END_TG_ARN --query 'TargetHealthDescriptions[].Target.Id' --output text > backend_instance_ids.txt
+
+      - name: Use Instance Id to get frontend private ip
+        run: |
+          aws ec2 describe-instances --instance-ids $(cat frontend_instance_ids.txt) --query 'Reservations[].Instances[].PrivateIpAddress' --output text > frontend_private_ips.txt
+
+      - name: Use Instance Id to get backend private ip
+        run: |
+          aws ec2 describe-instances --instance-ids $(cat backend_instance_ids.txt) --query 'Reservations[].Instances[].PrivateIpAddress' --output text > backend_private_ips.txt
+
+      - name: Use Instance Id to get backend public ip
+        run: |
+          aws ec2 describe-instances --instance-ids $(cat backend_instance_ids.txt) --query 'Reservations[].Instances[].PublicIpAddress' --output text > backend_public_ips.txt
+
+      - name: Use Instance Id to get frontend public ip
+        run: |
+          aws ec2 describe-instances --instance-ids $(cat frontend_instance_ids.txt) --query 'Reservations[].Instances[].PublicIpAddress' --output text > frontend_public_ips.txt
+
+
+      - name: Generate Ansible Inventory
+        run: |
+          echo "all:" > inventory/asg-alb.yml
+          echo "  children:" >> inventory/asg-alb.yml
+          echo "    app:" >> inventory/asg-alb.yml
+          echo "      hosts:" >> inventoryasg-alb.yml
+
+          while read ip; do
+            echo "        $ip:" >> inventory/asg-alb.yml
+            echo "          ansible_user: ubuntu" >> inventory/asg-alb.yml
+            echo "          ansible_connection: amazon.aws.aws_ssm" >> inventory/asg-alb.yml
+          done < private_ips.txt
+
 
       - name: Popoluate Ansible Inventory
         working-directory: ansible

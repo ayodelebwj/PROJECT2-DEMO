@@ -29,12 +29,20 @@ build {
       "sudo apt update -y",
       "sudo snap install amazon-ssm-agent --classic",
       "sudo systemctl enable snap.amazon-ssm-agent.amazon-ssm-agent.service",
-      "sudo systemctl start snap.amazon-ssm-agent.amazon-ssm-agent.service"
+      "sudo systemctl start snap.amazon-ssm-agent.amazon-ssm-agent.service",
+      "sudo apt -y install nginx",
+      "sudo systemctl enable nginx",
+      "sudo systemctl start nginx",
+      "sudo touch /var/www/html/health",
+      "sudo echo OK > /var/www/html/health",
+      "sudo systemctl daemon-reload",
+      "sudo systemctl restart nginx",
+      "sudo apt -y install git",
+      "sudo chown ubuntu:ubuntu /home/ubuntu",
+      "git clone https://github.com/techbleat/class25-26-project2.git",
+      "sudo cp class25-26-project2/login.html /var/www/html/login.html",
+      "sudo cp class25-26-project2/home.html /var/www/html/home.html"
     ]
   }
-
-    # This is the key part to tag the final AMI
 }
-
-
 

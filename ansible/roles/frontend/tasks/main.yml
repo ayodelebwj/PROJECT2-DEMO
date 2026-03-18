@@ -8,38 +8,38 @@
   include_vars:
     file: tf_output.json
  
-- name: Install Nginx
-  apt:
-    name: nginx
-    state: present
+#- name: Install Nginx
+#  apt:
+#    name: nginx
+#    state: present
 
-- name: Ensure Nginx is started
-  service:
-    name: nginx
-    state: started
-    enabled: yes
+#- name: Ensure Nginx is started
+#  service:
+#    name: nginx
+#    state: started
+#    enabled: yes
 
 - name: Mark repo as safe
   command: "git config --global --add safe.directory {{ app_dir }}"
   become: true
   become_user: ubuntu
 
-- name: Clone the project repository
-  git:
-    repo: "{{ git_repo }}"
-    dest: "{{ app_dir }}"
+#- name: Clone the project repository
+#  git:
+#    repo: "{{ git_repo }}"
+#    dest: "{{ app_dir }}"
 
-- name: Copy login.html to Nginx root
-  copy:
-    src: "{{ app_dir }}/app/templates/login.html"
-    dest: /var/www/html/login.html
-    remote_src: yes
+#- name: Copy login.html to Nginx root
+#  copy:
+#    src: "{{ app_dir }}/app/templates/login.html"
+#    dest: /var/www/html/login.html
+#    remote_src: yes
 
-- name: Copy home.html to Nginx root
-  copy:
-    src: "{{ app_dir }}/app/templates/home.html"
-    dest: /var/www/html/home.html
-    remote_src: yes
+#- name: Copy home.html to Nginx root
+#  copy:
+#    src: "{{ app_dir }}/app/templates/home.html"
+#    dest: /var/www/html/home.html
+#    remote_src: yes*/
 
 - name: Remove default Nginx config
   file:
@@ -69,3 +69,8 @@
 - name: Change Git Clone Ownership To Ubuntu
   command: "sudo chown ubuntu:ubuntu {{ app_dir }}"
   
+
+
+
+
+ 

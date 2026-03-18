@@ -1,4 +1,4 @@
-resource "aws_security_group" "frontend_sg" {
+/*resource "aws_security_group" "frontend_sg" {
   name        = var.frontend_sg_name
   description = "Security group for FRONTEND EC2 instances"
   vpc_id      = data.aws_vpc.myvpc.id
@@ -130,7 +130,7 @@ resource "aws_security_group" "db_sg" {
   tags = {
     Name = "project-db-sg"
   }
-}
+}*/
 
 # Security group for VPC endpoints
 /*resource "aws_security_group" "ssm_endpoint_sg" {

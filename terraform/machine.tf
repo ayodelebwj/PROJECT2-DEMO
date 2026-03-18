@@ -1,5 +1,5 @@
 //Step 4 — Attach to EC2..
-resource "aws_instance" "backend_server" {
+/*resource "aws_instance" "backend_server" {
   ami                    = data.aws_ami.backend_ami.id
   instance_type          = var.backend_server_instance_type
   iam_instance_profile   = aws_iam_instance_profile.ssm_profile.name
@@ -31,6 +31,6 @@ resource "aws_instance" "frontend_server" {
     Name = var.frontend_server_tags_Name
     Role = var.frontend_server_tags_Role
   }
-}
+}*/
 
 
