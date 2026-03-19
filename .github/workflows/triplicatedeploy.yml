@@ -88,7 +88,7 @@ jobs:
           echo "Searching for errored.tfstate..."
           find . -name "errored.tfstate" || true
 
-      # ------------------------------
+      # -------------------------------
       # Terraform Init
       # ------------------------------
       - name: Terraform Init
