@@ -82,12 +82,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      # ------------------------------
-      # push error
-      # ------------------------------
-      - name: Terraform push error
-        working-directory: terraform
-        run: terraform state push terraform/errored.tfstate
+      - name: Debug state file
+        if: failure()
+        run: |
+          echo "Searching for errored.tfstate..."
+          find . -name "errored.tfstate" || true
 
       # ------------------------------
       # Terraform Init
