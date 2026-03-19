@@ -7,6 +7,7 @@ on:
 
 jobs:
   packer_ami_template:
+    if: false
     runs-on: ubuntu-latest
 
     env:
@@ -43,7 +44,7 @@ jobs:
         run: packer build frontend.pkr.hcl
 
   terraform_infrastructure:
-    needs: packer_ami_template
+    #needs: packer_ami_template
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -51,11 +52,11 @@ jobs:
 
     outputs:
       role_arn: ${{ steps.tf.outputs.role_arn }}
-      frontend_pub_ip: ${{ steps.tfftpubip.outputs.frontend_pub_ip }}
-      frontend_pri_ip: ${{ steps.tfftpriip.outputs.frontend_pri_ip }}
-      backend_pri_ip: ${{ steps.tfbkprip.outputs.backend_pri_ip }}
-      frontend_inst_id: ${{ steps.tfftinstid.outputs.frontend_inst_id }}
-      backend_inst_id: ${{ steps.tfbkinstid.outputs.backend_inst_id }}
+      #frontend_pub_ip: ${{ steps.tfftpubip.outputs.frontend_pub_ip }}
+      #frontend_pri_ip: ${{ steps.tfftpriip.outputs.frontend_pri_ip }}
+      #backend_pri_ip: ${{ steps.tfbkprip.outputs.backend_pri_ip }}
+      #frontend_inst_id: ${{ steps.tfftinstid.outputs.frontend_inst_id }}
+      #backend_inst_id: ${{ steps.tfbkinstid.outputs.backend_inst_id }}
       pgres_db_name: ${{ steps.dbname.outputs.db_name }}
       pgres_db_endpoint: ${{ steps.dbendpoint.outputs.db_endpoint }}
       pgres_db_port: ${{ steps.dbport.outputs.db_port }}
