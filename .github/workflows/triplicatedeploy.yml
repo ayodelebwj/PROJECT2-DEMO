@@ -52,11 +52,6 @@ jobs:
 
     outputs:
       role_arn: ${{ steps.tf.outputs.role_arn }}
-      #frontend_pub_ip: ${{ steps.tfftpubip.outputs.frontend_pub_ip }}
-      #frontend_pri_ip: ${{ steps.tfftpriip.outputs.frontend_pri_ip }}
-      #backend_pri_ip: ${{ steps.tfbkprip.outputs.backend_pri_ip }}
-      #frontend_inst_id: ${{ steps.tfftinstid.outputs.frontend_inst_id }}
-      #backend_inst_id: ${{ steps.tfbkinstid.outputs.backend_inst_id }}
       pgres_db_name: ${{ steps.dbname.outputs.db_name }}
       pgres_db_endpoint: ${{ steps.dbendpoint.outputs.db_endpoint }}
       pgres_db_port: ${{ steps.dbport.outputs.db_port }}
@@ -65,8 +60,6 @@ jobs:
       backend_arn: ${{ steps.betgarn.outputs.BK_END_TG_ARN }}
       frontend_arn: ${{ steps.fetgarn.outputs.FR_END_TG_ARN }}
 
-      
-      
     steps:
       # -------------------------------------
       # Checkout repo
@@ -90,11 +83,19 @@ jobs:
           aws-region: us-east-1
 
       # ------------------------------
+      # push error
+      # ------------------------------
+      - name: Terraform push error
+        working-directory: terraform
+        run: terraform state push errored.tfstate
+
+      # ------------------------------
       # Terraform Init
       # ------------------------------
       - name: Terraform Init
         working-directory: terraform
         run: terraform init 
+
 
       # --------------------------------
       # Terraform Apply
