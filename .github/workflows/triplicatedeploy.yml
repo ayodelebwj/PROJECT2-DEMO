@@ -87,7 +87,7 @@ jobs:
       # ------------------------------
       - name: Terraform push error
         working-directory: terraform
-        run: terraform state push errored.tfstate
+        run: terraform state push terraform/errored.tfstate
 
       # ------------------------------
       # Terraform Init
