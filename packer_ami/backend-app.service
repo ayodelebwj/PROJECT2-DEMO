@@ -7,10 +7,13 @@
       Environment="DB_PASSWORD=SuperSecurePassword123!"
       Environment="DB_HOST=my-postgres-db.cc30mosgk2bq.us-east-1.rds.amazonaws.com:5432"
       Environment="DB_NAME=myappdb"
+      Environment="APP_SECRET_KEY=your-secret-key-here"
+      Environment="APP_DEMO_USER=admin"
+      Environment="APP_DEMO_PASS=admin"
       User=ubuntu
       Group=ubuntu
       WorkingDirectory=/home/ubuntu/class25-26-project2/
-      ExecStart=/home/ubuntu/class25-26-project2/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+      ExecStart=/home/ubuntu/class25-26-project2/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000 &
       Restart=always
       RestartSec=5
 
