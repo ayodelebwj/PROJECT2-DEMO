@@ -264,7 +264,7 @@ jobs:
 
       - name: echo FR_END_TG_ARN=$FR_END_TG_ARN
         run: |
-          echo "FR_END_TG_ARN=$backend_tg_arn"
+          echo "FR_END_TG_ARN=$role_arn"
 
       - name: Discover Instances Behind Target Group
         run: |
