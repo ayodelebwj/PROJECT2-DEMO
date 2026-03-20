@@ -16,16 +16,6 @@ source "amazon-ebs" "backend_vm_source" {
   }
 }
 
-{
-  "provisioners": [
-    {
-      "type": "file",
-      "source": "main.py",
-      "destination": "/home/ubuntu/class25-26-project2/app/main.py"
-    }
-  ]
-}
-
 
 #BUILDS THE PYTHON SERVER AMI TEMPLATE
 build {
