@@ -269,7 +269,7 @@ jobs:
 
       - name: Discover Instances Behind Target Group
         run: |
-          aws elbv2 describe-target-health --target-group-arn $BK_END_TG_ARN --query 'TargetHealthDescriptions[].Target.Id' --output text > frontend_instance_ids.txt
+          aws elbv2 describe-target-health --target-group-arn ${{ needs.terraform_infrastructure.outputs.BK_END_TG_ARN }} --query 'TargetHealthDescriptions[].Target.Id' --output text > frontend_instance_ids.txt
 
       - name: Discover Instances Behind Target Group
         run: |
