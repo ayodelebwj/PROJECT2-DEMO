@@ -1,0 +1,101 @@
+from fastapi import FastAPI, Request, Form
+from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.templating import Jinja2Templates
+from itsdangerous import URLSafeSerializer, BadSignature
+from sqlalchemy import create_engine
+from jinja2 import Template
+from sqlalchemy import create_engine
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
+from dotenv import load_dotenv
+from prometheus_fastapi_instrumentator import Instrumentator
+import os
+
+load_dotenv()
+
+template_str = "postgresql+psycopg://{{ db_username }}:{{ db_password }}@{{ db_endpoint }}/{{ db_name }}"
+t = Template(template_str)
+
+DATABASE_URL = t.render(
+    db_username=os.environ["DB_USER"],
+    db_password=os.environ["DB_PASSWORD"],
+    db_endpoint=os.environ["DB_HOST"],
+    db_name=os.environ["DB_NAME"]
+)
+
+engine = create_engine(
+    DATABASE_URL,
+    echo=False,
+    pool_pre_ping=True,
+)
+
+
+# Demo credentials (replace with real auth later)
+SECRET_KEY = os.environ["APP_SECRET_KEY"]
+DEMO_USER = os.environ["APP_DEMO_USER"]
+DEMO_PASS = os.environ["APP_DEMO_PASS"]
+APP_NAME = "fastapi_login"
+COOKIE_NAME = "session"
+
+
+
+serializer = URLSafeSerializer(SECRET_KEY, salt=APP_NAME)
+
+app = FastAPI()
+templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), "templates"))
+Instrumentator().instrument(app).expose(app)
+
+def set_session(response: RedirectResponse, username: str) -> None:
+    token = serializer.dumps({"u": username})
+    response.set_cookie(
+        COOKIE_NAME,
+        token,
+        httponly=True,
+        samesite="lax",
+        secure=False,  # set True when behind HTTPS
+        max_age=3600,
+    )
+
+
+def get_user(request: Request) -> str | None:
+    token = request.cookies.get(COOKIE_NAME)
+    if not token:
+        return None
+    try:
+        data = serializer.loads(token)
+        return data.get("u")
+    except BadSignature:
+        return None
+
+
+@app.get("/login", response_class=HTMLResponse)
+async def login_get(request: Request, error: str | None = None):
+    return templates.TemplateResponse("login.html", {"request": request, "error": error})
+
+
+@app.post("/login")
+async def login_post(username: str = Form(...), password: str = Form(...)):
+    if username == DEMO_USER and password == DEMO_PASS:
+        resp = RedirectResponse(url="/", status_code=303)
+        set_session(resp, username)
+        return resp
+    return RedirectResponse(url="/login?error=Invalid%20credentials", status_code=303)
+
+
+@app.get("/logout")
+async def logout():
+    resp = RedirectResponse(url="/login", status_code=303)
+    resp.delete_cookie(COOKIE_NAME)
+    return resp
+
+
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    user = get_user(request)
+    if not user:
+        return RedirectResponse(url="/login", status_code=303)
+    return templates.TemplateResponse("home.html", {"request": request, "user": user})
+
+
+@app.get("/healthz")
+async def healthz():
+    return {"ok": True}

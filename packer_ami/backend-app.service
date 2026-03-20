@@ -1,0 +1,18 @@
+[Unit]
+      Description=FastAPI Application
+      After=network.target
+
+      [Service]
+      Environment="DB_USER=dbadmin"
+      Environment="DB_PASSWORD=SuperSecurePassword123!"
+      Environment="DB_HOST=my-postgres-db.cc30mosgk2bq.us-east-1.rds.amazonaws.com:5432"
+      Environment="DB_NAME=myappdb"
+      User=ubuntu
+      Group=ubuntu
+      WorkingDirectory={{ app_dir }}
+      ExecStart=/bin/bash -c 'source venv/bin/activate && pip install -r requirements.txt && uvicorn app.main:app --host 0.0.0.0 --port 8000'
+      Restart=always
+      RestartSec=5
+
+      [Install]
+      WantedBy=multi-user.target

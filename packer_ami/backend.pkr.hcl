@@ -16,16 +16,49 @@ source "amazon-ebs" "backend_vm_source" {
   }
 }
 
+{
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "main.py",
+      "destination": "/home/ubuntu/class25-26-project2/app/main.py"
+    }
+  ]
+}
+
 
 #BUILDS THE PYTHON SERVER AMI TEMPLATE
 build {
   name    = "backend_build"
   sources = ["source.amazon-ebs.backend_vm_source"]
 
+    provisioner "file" {
+    source      = "backend-app.service"
+    destination = "/tmp/backend-app.service"
+  }
+
+    provisioner "file" {
+    source      = "requirements.txt"
+    destination = "/tmp/requirements.txt"
+  }
+
+    provisioner "file" {
+    source      = "main.py"
+    destination = "/tmp/main.py"
+  }
+
   provisioner "shell" {
     inline_shebang = "/bin/bash -xe"
     inline = [
       "sudo apt update -y",
+      "sudo apt install python3.12-venv python3 python3-pip -y",
+      "git clone https://github.com/techbleat/class25-26-project2.git",
+      "sudo cp /tmp/backend-app.service /etc/systemd/system/backend-app.service",
+      "sudo cp /tmp/requirements.txt /home/ubuntu/class25-26-project2/requirements.txt",
+      "sudo cp /tmp/main.py /home/ubuntu/class25-26-project2/app/main.py",
+      "sudo chown ubuntu:ubuntu /home/ubuntu",
+      "sudo systemctl enable backend-app.service",
+      "sudo systemctl start backend-app.service",
       "sudo snap install amazon-ssm-agent --classic",
       "sudo systemctl enable snap.amazon-ssm-agent.amazon-ssm-agent.service",
       "sudo systemctl start snap.amazon-ssm-agent.amazon-ssm-agent.service"
