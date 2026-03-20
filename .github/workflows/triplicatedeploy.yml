@@ -260,6 +260,12 @@ jobs:
          role-to-assume: ${{ needs.terraform_infrastructure.outputs.role_arn }}
          aws-region: us-east-1
 
+         
+
+      - name: echo FR_END_TG_ARN=$FR_END_TG_ARN
+        run: |
+          echo "FR_END_TG_ARN=$FR_END_TG_ARN"
+
       - name: Discover Instances Behind Target Group
         run: |
           aws elbv2 describe-target-health --target-group-arn $FR_END_TG_ARN --query 'TargetHealthDescriptions[].Target.Id' --output text > frontend_instance_ids.txt
