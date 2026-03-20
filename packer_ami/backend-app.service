@@ -10,7 +10,7 @@
       User=ubuntu
       Group=ubuntu
       WorkingDirectory=/home/ubuntu/class25-26-project2/app/
-      ExecStart=/bin/bash -c 'source venv/bin/activate && pip install -r requirements.txt && uvicorn app.main:app --host 0.0.0.0 --port 8000'
+      ExecStart=/home/ubuntu/class25-26-project2/app/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
       Restart=always
       RestartSec=5
 
