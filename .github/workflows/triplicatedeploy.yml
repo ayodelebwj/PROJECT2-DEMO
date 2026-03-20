@@ -118,21 +118,12 @@ jobs:
       - name: Get Terraform Output Frontend Target Group Arn
         working-directory: terraform
         id: fetgarn
-        run: echo "FR_END_TG_ARN=$(terraform output -json frontend_tg_arn)" >> $GITHUB_OUTPUT
-
-      
-      - name: Debug each IP
-        run: |
-          for ip in ${FR_END_TG_ARN//,/ }; do
-            echo "Found IP: $ip"
-          done
-
-
+        run: echo "FR_END_TG_ARN=$(terraform output raw frontend_tg_arn)" >> $GITHUB_OUTPUT
 
       - name: Get Terraform Output Backend Target Group Arn
         working-directory: terraform
         id: betgarn
-        run: echo "BK_END_TG_ARN=$(terraform output -json backend_tg_arn)" >> $GITHUB_OUTPUT
+        run: echo "BK_END_TG_ARN=$(terraform output raw backend_tg_arn)" >> $GITHUB_OUTPUT
 
 
 
