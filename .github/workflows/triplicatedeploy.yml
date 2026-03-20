@@ -7,7 +7,6 @@ on:
 
 jobs:
   packer_ami_template:
-    if: false
     runs-on: ubuntu-latest
 
     env:
@@ -44,7 +43,7 @@ jobs:
         run: packer build frontend.pkr.hcl
 
   terraform_infrastructure:
-    #needs: packer_ami_template
+    needs: packer_ami_template
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -96,7 +95,7 @@ jobs:
       - name: Terraform Apply
         working-directory: terraform
         run: 
-          terraform destroy --auto-approve -var-file=values.tfvars
+          terraform apply --auto-approve -var-file=values.tfvars
 
       - name: Terraform Output for Ansible Variables
         working-directory: terraform
