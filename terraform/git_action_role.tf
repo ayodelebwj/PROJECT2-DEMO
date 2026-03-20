@@ -83,6 +83,13 @@ resource "aws_iam_policy" "github_actions_ec2_policy" {
           "ssm:GetCommandInvocation"
         ],
         Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "elasticloadbalancing:Describe*"
+        ],
+        Resource = "*"
       }
     ]
   })
