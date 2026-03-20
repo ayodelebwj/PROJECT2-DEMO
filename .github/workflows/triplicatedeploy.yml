@@ -293,9 +293,9 @@ jobs:
 
       - name: Debug each IP
         run: |
-          for ip in ${frontend_public_ips.txt//,/ }; do
+          while read ip; do
             echo "Found IP: $ip"
-          done
+          done < frontend_public_ips.txt
 
 
 
