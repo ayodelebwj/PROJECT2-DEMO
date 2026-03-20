@@ -262,8 +262,10 @@ jobs:
          
 
       - name: echo FR_END_TG_ARN=$FR_END_TG_ARN
+        env:
+          BK_END_TG_ARN: ${{ needs.terraform_infrastructure.outputs.BK_END_TG_ARN }}
         run: |
-          echo "FR_END_TG_ARN=$role_arn"
+          echo "BK_END_TG_ARN=$BK_END_TG_ARN"
 
       - name: Discover Instances Behind Target Group
         run: |
