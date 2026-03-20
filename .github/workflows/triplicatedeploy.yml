@@ -57,8 +57,8 @@ jobs:
       pgres_db_port: ${{ steps.dbport.outputs.db_port }}
       pgres_db_username: ${{ steps.dbusername.outputs.db_username }}
       pgres_db_password: ${{ steps.dbpassword.outputs.db_password }}
-      backend_arn: ${{ steps.betgarn.outputs.BK_END_TG_ARN }}
-      frontend_arn: ${{ steps.fetgarn.outputs.FR_END_TG_ARN }}
+      BK_END_TG_ARN: ${{ steps.betgarn.outputs.backend_tg_arn }}frontend_tg_arn
+      FR_END_TG_ARN: ${{ steps.fetgarn.outputs.frontend_tg_arn }}
 
     steps:
       # -------------------------------------
@@ -118,12 +118,12 @@ jobs:
       - name: Get Terraform Output Frontend Target Group Arn
         working-directory: terraform
         id: fetgarn
-        run: echo "FR_END_TG_ARN=$(terraform output -raw frontend_tg_arn)" >> $GITHUB_OUTPUT
+        run: echo "frontend_tg_arn=$(terraform output -raw frontend_tg_arn)" >> $GITHUB_OUTPUT
 
       - name: Get Terraform Output Backend Target Group Arn
         working-directory: terraform
         id: betgarn
-        run: echo "BK_END_TG_ARN=$(terraform output -raw backend_tg_arn)" >> $GITHUB_OUTPUT
+        run: echo "backend_tg_arn=$(terraform output -raw backend_tg_arn)" >> $GITHUB_OUTPUT
 
 
 
