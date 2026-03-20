@@ -295,7 +295,7 @@ jobs:
         run: |
           while read ip; do
             echo "Found IP: $ip"
-          done < frontend_public_ips.txt
+          done < backend_public_ips.txt
 
 
 
