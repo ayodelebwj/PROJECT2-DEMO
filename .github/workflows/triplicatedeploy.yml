@@ -300,15 +300,15 @@ jobs:
 
       - name: Generate Ansible Inventory
         run: |
-          echo "all:" > inventory/asg-alb.yml
-          echo "  children:" >> inventory/asg-alb.yml
-          echo "    app:" >> inventory/asg-alb.yml
-          echo "      hosts:" >> inventoryasg-alb.yml
+          echo "all:" > ansible/inventory/asg-alb.yml
+          echo "  children:" >> ansible/inventory/asg-alb.yml
+          echo "    app:" >> ansible/inventory/asg-alb.yml
+          echo "      hosts:" >> ansible/inventoryasg-alb.yml
 
           while read ip; do
-            echo "        $ip:" >> inventory/asg-alb.yml
-            echo "          ansible_user: ubuntu" >> inventory/asg-alb.yml
-            echo "          ansible_connection: amazon.aws.aws_ssm" >> inventory/asg-alb.yml
+            echo "        $ip:" >> ansible/inventory/asg-alb.yml
+            echo "          ansible_user: ubuntu" >> ansible/inventory/asg-alb.yml
+            echo "          ansible_connection: amazon.aws.aws_ssm" >> ansible/inventory/asg-alb.yml
           done < private_ips.txt
 
 
