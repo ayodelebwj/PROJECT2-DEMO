@@ -43,6 +43,7 @@ resource "aws_iam_policy" "github_actions_ec2_policy" {
         Effect = "Allow"
         Action = [
           "ec2:Describe*",
+          "ec2:DescribeInstances",
           "ec2:RunInstances",
           "ec2:TerminateInstances",
           "ec2:StartInstances",
