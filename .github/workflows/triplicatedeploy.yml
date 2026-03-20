@@ -57,7 +57,7 @@ jobs:
       pgres_db_port: ${{ steps.dbport.outputs.db_port }}
       pgres_db_username: ${{ steps.dbusername.outputs.db_username }}
       pgres_db_password: ${{ steps.dbpassword.outputs.db_password }}
-      BK_END_TG_ARN: ${{ steps.betgarn.outputs.backend_tg_arn }}frontend_tg_arn
+      BK_END_TG_ARN: ${{ steps.betgarn.outputs.backend_tg_arn }}
       FR_END_TG_ARN: ${{ steps.fetgarn.outputs.frontend_tg_arn }}
 
     steps:

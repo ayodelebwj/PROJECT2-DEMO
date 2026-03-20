@@ -23,7 +23,7 @@
         sensitive = true
       }
 
-      output frontend_public_ip {
+      /*output frontend_public_ip {
         value = data.aws_instances.frontend_asg_instances.public_ips
       }
 
@@ -41,7 +41,7 @@
 
       output backend_instance_id {
         value = data.aws_instances.backend_asg_instances.ids
-      }
+      }*/
 
       output "backend_tg_arn" {
       value = aws_lb_target_group.backend_tg.arn 
