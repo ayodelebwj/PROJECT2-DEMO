@@ -50,7 +50,7 @@ resource "aws_iam_policy" "github_actions_ec2_policy" {
           "ec2:StopInstances",
           "ec2:DescribeTags"
         ]
-        Resource = var.github_actions_ec2_policy_Resource
+        Resource = "*" #var.github_actions_ec2_policy_Resource
       },
       {
         "Effect": "Allow",
