@@ -51,7 +51,7 @@ build {
        "python3 -m venv venv",
        "source venv/bin/activate",
        "pip install --upgrade pip",
-      "pip install -r requirements.txt",
+      "pip install -r /home/ubuntu/class25-26-project2/requirements.txt",
       "sudo systemctl daemon-reload",
       "sudo systemctl enable backend-app.service",
       "sudo systemctl start backend-app.service",
