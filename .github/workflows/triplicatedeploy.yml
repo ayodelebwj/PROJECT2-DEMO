@@ -96,7 +96,7 @@ jobs:
       - name: Terraform Apply
         working-directory: terraform
         run: 
-          terraform destroy --auto-approve -var-file=values.tfvars
+          terraform apply --auto-approve -var-file=values.tfvars
 
       - name: Terraform Output for Ansible Variables
         working-directory: terraform
@@ -267,11 +267,11 @@ jobs:
         run: |
           echo "BK_END_TG_ARN=$BK_END_TG_ARN"
 
-      - name: Discover Instances Behind Target Group
+      - name: Discover Instances Behind Frontend Target Group
         run: |
           aws elbv2 describe-target-health --target-group-arn ${{ needs.terraform_infrastructure.outputs.FR_END_TG_ARN }} --query 'TargetHealthDescriptions[].Target.Id' --output text > frontend_instance_ids.txt
 
-      - name: Discover Instances Behind Target Group
+      - name: Discover Instances Behind Backend Target Group
         run: |
           aws elbv2 describe-target-health --target-group-arn ${{ needs.terraform_infrastructure.outputs.BK_END_TG_ARN }} --query 'TargetHealthDescriptions[].Target.Id' --output text > backend_instance_ids.txt
 
@@ -295,7 +295,7 @@ jobs:
         run: |
           while read ip; do
             echo "Found IP: $ip"
-          done < backend_public_ips.txt
+          done < backend_instance_ids.txt
 
 
 
@@ -310,7 +310,7 @@ jobs:
             echo "        $ip:" >> ansible/inventory/asg-alb.yml
             echo "          ansible_user: ubuntu" >> ansible/inventory/asg-alb.yml
             echo "          ansible_connection: amazon.aws.aws_ssm" >> ansible/inventory/asg-alb.yml
-          done < backend_public_ips.txt
+          done < backend_instance_ids.txt
 
 
       - name: Popoluate Ansible Inventory
