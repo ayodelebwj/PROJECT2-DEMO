@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_REGION: us-east-1
 
     steps:
       - name: Checkout repository
@@ -96,7 +96,7 @@ jobs:
       - name: Terraform Apply
         working-directory: terraform
         run: 
-          terraform destroy --auto-approve -var-file=values.tfvars
+          terraform apply --auto-approve -var-file=values.tfvars
 
       - name: Terraform Output for Ansible Variables
         working-directory: terraform
