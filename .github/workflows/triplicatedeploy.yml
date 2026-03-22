@@ -299,17 +299,22 @@ jobs:
 
 
       - name: Generate Ansible Inventory
+        working-directory: ansible
         run: |
-          echo "all:" > ansible/inventory/asg-alb.yml
-          echo "  children:" >> ansible/inventory/asg-alb.yml
-          echo "    app:" >> ansible/inventory/asg-alb.yml
-          echo "      hosts:" >> ansible/inventory/asg-alb.yml
+          echo "all:" > inventory/asg-alb.yml
+          echo "  children:" >> inventory/asg-alb.yml
+          echo "    app:" >> inventory/asg-alb.yml
+          echo "      hosts:" >> inventory/asg-alb.yml
 
           while read ip; do
-            echo "        $ip:" >> ansible/inventory/asg-alb.yml
-            echo "          ansible_user: ubuntu" >> ansible/inventory/asg-alb.yml
-            echo "          ansible_connection: amazon.aws.aws_ssm" >> ansible/inventory/asg-alb.yml
+            echo "        $ip:" >> inventory/asg-alb.yml
+            echo "          ansible_user: ubuntu" >> inventory/asg-alb.yml
+            echo "          ansible_connection: amazon.aws.aws_ssm" >> inventory/asg-alb.yml
           done < backend_instance_ids.txt
+
+      - name: Debug each IP
+        run: |
+          cat inventory/asg-alb.yml
 
 
       - name: Popoluate Ansible Inventory
@@ -345,9 +350,10 @@ jobs:
           EOF
                    
       - name: Run Ansible Playbook
+        working-directory: ansible
         run: |
-            ansible-playbook -i ansible/inventory/testrunhost.yml \
-            ansible/playbook.yml --extra-vars \
+            ansible-playbook -i inventory/asg-alb.yml \
+            playbook.yml --extra-vars \
             "backend_private_ip=${{ needs.terraform_infrastructure.outputs.backend_pri_ip }} \
             frontend_public_ip=${{ needs.terraform_infrastructure.outputs.frontend_pub_ip }} \
             frontend_private_ip=${{ needs.terraform_infrastructure.outputs.frontend_pri_ip }} \

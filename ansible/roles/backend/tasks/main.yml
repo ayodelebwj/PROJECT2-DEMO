@@ -1,84 +1,84 @@
 ---
-- name: Install Python venv package
-  apt:
-    name: python3.12-venv
-    state: present
-    update_cache: yes
-    cache_valid_time: 3600
-  become: true
+#- name: Install Python venv package
+#  apt:
+#    name: python3.12-venv
+#    state: present
+#    update_cache: yes
+#    cache_valid_time: 3600
+#  become: true
 
-- name: Mark repo as safe
-  command: git config --global --add safe.directory "{{ app_dir }}"
-  become: true
-  become_user: ubuntu
+#- name: Mark repo as safe
+#  command: git config --global --add safe.directory "{{ app_dir }}"
+#  become: true
+#  become_user: ubuntu
 
-- name: Clone Repo
-  git:
-    repo: "{{ git_repo }}"
-    dest: "{{ app_dir }}"
-    version: main
-    force: yes
+#- name: Clone Repo
+#  git:
+#    repo: "{{ git_repo }}"
+#    dest: "{{ app_dir }}"
+#    version: main
+#    force: yes
 
-- name: Copy main.py template
-  template:
-    src: main.py.j2
-    dest: "{{ app_dir }}/app/main.py"
+#- name: Copy main.py template
+#  template:
+#    src: main.py.j2
+#    dest: "{{ app_dir }}/app/main.py"
 
-- name: Copy requirement.txt template
-  template:
-    src: requirements.txt.j2
-    dest: "{{ app_dir }}/requirements.txt"
+#- name: Copy requirement.txt template
+#  template:
+#    src: requirements.txt.j2
+#    dest: "{{ app_dir }}/requirements.txt"
 
-- name: Copy .env template
-  template:
-    src: .env.j2
-    dest: "{{ app_dir }}/.env"
+#- name: Copy .env template
+#  template:
+#    src: .env.j2
+#    dest: "{{ app_dir }}/.env"
 
-- name: Create venv
-  command: python3 -m venv venv
-  args:
-    chdir: "{{ app_dir }}"
-    creates: "{{ app_dir }}/venv"
+#- name: Create venv
+#  command: python3 -m venv venv
+#  args:
+#    chdir: "{{ app_dir }}"
+#    creates: "{{ app_dir }}/venv"
 
-- name: Install requirements
-  command: "{{ app_dir }}/venv/bin/pip install -r requirements.txt"
-  args:
-    chdir: "{{ app_dir }}"
+#- name: Install requirements
+#  command: "{{ app_dir }}/venv/bin/pip install -r requirements.txt"
+#  args:
+#    chdir: "{{ app_dir }}"
 
 - name: Install Prometheus-Client
   command: "{{ app_dir }}/venv/bin/pip install prometheus_client"
 
-- name: Create systemd service file
-  copy:
-    dest: "/etc/systemd/system/{{ app_name }}.service"
-    content: |
-      [Unit]
-      Description=FastAPI Application
-      After=network.target
+#- name: Create systemd service file
+#  copy:
+#    dest: "/etc/systemd/system/{{ app_name }}.service"
+#    content: |
+#      [Unit]
+#      Description=FastAPI Application
+#      After=network.target
+#
+#      [Service]
+#      Environment="DB_USER={{ db_username }}"
+#      Environment="DB_PASSWORD={{ db_password }}"
+#      Environment="DB_HOST={{ db_endpoint }}"
+#      Environment="DB_NAME={{ db_name }}"
+#      User={{ app_user }}
+#      Group={{ app_user }}
+#      WorkingDirectory={{ app_dir }}
+#      ExecStart=/bin/bash -c 'source venv/bin/activate && pip install -r requirements.txt && uvicorn app.main:app --host 0.0.0.0 --port 8000'
+#      Restart=always
+#      RestartSec=5
 
-      [Service]
-      Environment="DB_USER={{ db_username }}"
-      Environment="DB_PASSWORD={{ db_password }}"
-      Environment="DB_HOST={{ db_endpoint }}"
-      Environment="DB_NAME={{ db_name }}"
-      User={{ app_user }}
-      Group={{ app_user }}
-      WorkingDirectory={{ app_dir }}
-      ExecStart=/bin/bash -c 'source venv/bin/activate && pip install -r requirements.txt && uvicorn app.main:app --host 0.0.0.0 --port 8000'
-      Restart=always
-      RestartSec=5
+#      [Install]
+#      WantedBy=multi-user.target
+#  notify: Reload systemd
+#  become: true
 
-      [Install]
-      WantedBy=multi-user.target
-  notify: Reload systemd
-  become: true
-
-- name: Enable and start FastAPI service
-  systemd:
-    name: "{{ app_name }}"
-    enabled: yes
-    state: restarted
-  become: true
+#- name: Enable and start FastAPI service
+#  systemd:
+#    name: "{{ app_name }}"
+#    enabled: yes
+#    state: restarted
+#  become: true
 
 - name: Change Git Clone Ownership To Ubuntu
   command: "sudo chown ubuntu:ubuntu {{ app_dir }}"
