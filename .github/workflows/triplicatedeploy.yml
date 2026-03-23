@@ -259,8 +259,6 @@ jobs:
          role-to-assume: ${{ needs.terraform_infrastructure.outputs.role_arn }}
          aws-region: us-east-1
 
-         
-
       - name: echo FR_END_TG_ARN=$FR_END_TG_ARN
         env:
           BK_END_TG_ARN: ${{ needs.terraform_infrastructure.outputs.BK_END_TG_ARN }}
@@ -311,6 +309,15 @@ jobs:
             echo "          ansible_user: ubuntu" >> ansible/inventory/asg-alb.yml
             echo "          ansible_connection: amazon.aws.aws_ssm" >> ansible/inventory/asg-alb.yml
           done < backend_instance_ids.txt
+
+          echo "    frontend:" >> ansible/inventory/asg-alb.yml
+          echo "      hosts:" >> ansible/inventory/asg-alb.yml
+
+          while read ip; do
+            echo "        $ip:" >> ansible/inventory/asg-alb.yml
+            echo "          ansible_user: ubuntu" >> ansible/inventory/asg-alb.yml
+            echo "          ansible_connection: amazon.aws.aws_ssm" >> ansible/inventory/asg-alb.yml
+          done < frontend_instance_ids.txt
 
       - name: cat inventory/asg-alb.yml
         run: |
