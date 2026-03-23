@@ -328,7 +328,7 @@ jobs:
           echo "    backend:" >> ansible/inventory/asg-alb.yml
           echo "      hosts:" >> ansible/inventory/asg-alb.yml
 
-          jq -c '.[]' instances.json | while read inst; do
+          jq -c '.[]' backend_private_ips.json | while read inst; do
             ID=$(echo $inst | jq -r '.id')
             PRIV=$(echo $inst | jq -r '.private')
             PUB=$(echo $inst | jq -r '.public')
