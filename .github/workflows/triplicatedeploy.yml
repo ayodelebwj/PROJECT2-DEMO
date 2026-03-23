@@ -293,7 +293,7 @@ jobs:
         run: |
           while read ip; do
             echo "Found IP: $ip"
-          done < backend_instance_ids.json
+          done < backend_instance_ids.txt
 
 
 
