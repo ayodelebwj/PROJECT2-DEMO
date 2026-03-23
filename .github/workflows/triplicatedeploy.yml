@@ -7,6 +7,7 @@ on:
 
 jobs:
   packer_ami_template:
+    if: false
     runs-on: ubuntu-latest
 
     env:
@@ -43,7 +44,7 @@ jobs:
         run: packer build frontend.pkr.hcl
 
   terraform_infrastructure:
-    needs: packer_ami_template
+    #needs: packer_ami_template
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -299,22 +300,21 @@ jobs:
 
 
       - name: Generate Ansible Inventory
-        working-directory: ansible
         run: |
-          echo "all:" > inventory/asg-alb.yml
-          echo "  children:" >> inventory/asg-alb.yml
-          echo "    app:" >> inventory/asg-alb.yml
-          echo "      hosts:" >> inventory/asg-alb.yml
+          echo "all:" > ansible/inventory/asg-alb.yml
+          echo "  children:" >> ansible/inventory/asg-alb.yml
+          echo "    backend:" >> ansible/inventory/asg-alb.yml
+          echo "      hosts:" >> ansible/inventory/asg-alb.yml
 
           while read ip; do
-            echo "        $ip:" >> inventory/asg-alb.yml
-            echo "          ansible_user: ubuntu" >> inventory/asg-alb.yml
-            echo "          ansible_connection: amazon.aws.aws_ssm" >> inventory/asg-alb.yml
+            echo "        $ip:" >> ansible/inventory/asg-alb.yml
+            echo "          ansible_user: ubuntu" >> ansible/inventory/asg-alb.yml
+            echo "          ansible_connection: amazon.aws.aws_ssm" >> ansible/inventory/asg-alb.yml
           done < backend_instance_ids.txt
 
-      - name: Debug each IP
+      - name: cat inventory/asg-alb.yml
         run: |
-          cat inventory/asg-alb.yml
+          cat ansible/inventory/asg-alb.yml
 
 
       - name: Popoluate Ansible Inventory
