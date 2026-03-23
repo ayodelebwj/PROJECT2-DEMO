@@ -335,7 +335,6 @@ jobs:
             cat <<EOF >> ansible/inventory/asg-alb.yml
                   $ID:
                     ansible_connection: amazon.aws.aws_ssm
-                    ansible_user: ubuntu
                     private_ip: $PRIV
           EOF
           done
@@ -350,7 +349,6 @@ jobs:
             cat <<EOF >> ansible/inventory/asg-alb.yml
                   $ID:
                     ansible_connection: amazon.aws.aws_ssm
-                    ansible_user: ubuntu
                     private_ip: $PRIV
           EOF
           done
