@@ -338,6 +338,22 @@ jobs:
                   ansible_connection: amazon.aws.aws_ssm
                   ansible_user: ubuntu
                   private_ip: $PRIV
+          EOF
+          done
+
+          echo "    frontend:" >> ansible/inventory/asg-alb.yml
+          echo "      hosts:" >> ansible/inventory/asg-alb.yml
+
+          jq -c '.[]' frontend_private_ips.json | while read inst; do
+            ID=$(echo $inst | jq -r '.id')
+            PRIV=$(echo $inst | jq -r '.private')
+            PUB=$(echo $inst | jq -r '.public')
+
+          cat <<EOF >> ansible/inventory/asg-alb.yml
+                $ID:
+                  ansible_connection: amazon.aws.aws_ssm
+                  ansible_user: ubuntu
+                  private_ip: $PRIV
                   public_ip: $PUB
           EOF
           done
