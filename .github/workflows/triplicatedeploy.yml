@@ -331,13 +331,12 @@ jobs:
           jq -c '.[]' backend_private_ips.json | while read inst; do
             ID=$(echo $inst | jq -r '.id')
             PRIV=$(echo $inst | jq -r '.private')
-            PUB=$(echo $inst | jq -r '.public')
 
-          cat <<EOF >> ansible/inventory/asg-alb.yml
-                $ID:
-                  ansible_connection: amazon.aws.aws_ssm
-                  ansible_user: ubuntu
-                  private_ip: $PRIV
+            cat <<EOF >> ansible/inventory/asg-alb.yml
+              $ID:
+                ansible_connection: amazon.aws.aws_ssm
+                ansible_user: ubuntu
+                private_ip: $PRIV
           EOF
           done
 
@@ -347,16 +346,16 @@ jobs:
           jq -c '.[]' frontend_private_ips.json | while read inst; do
             ID=$(echo $inst | jq -r '.id')
             PRIV=$(echo $inst | jq -r '.private')
-            PUB=$(echo $inst | jq -r '.public')
 
-          cat <<EOF >> ansible/inventory/asg-alb.yml
-                $ID:
-                  ansible_connection: amazon.aws.aws_ssm
-                  ansible_user: ubuntu
-                  private_ip: $PRIV
-                  public_ip: $PUB
+            cat <<EOF >> ansible/inventory/asg-alb.yml
+              $ID:
+                ansible_connection: amazon.aws.aws_ssm
+                ansible_user: ubuntu
+                private_ip: $PRIV
           EOF
           done
+
+
 
 
 
