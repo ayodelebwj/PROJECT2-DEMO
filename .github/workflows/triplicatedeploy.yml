@@ -398,9 +398,6 @@ jobs:
         run: |
             ansible-playbook -i inventory/asg-alb.yml \
             playbook.yml --extra-vars \
-            "backend_private_ip=${{ needs.terraform_infrastructure.outputs.backend_pri_ip }} \
-            frontend_public_ip=${{ needs.terraform_infrastructure.outputs.frontend_pub_ip }} \
-            frontend_private_ip=${{ needs.terraform_infrastructure.outputs.frontend_pri_ip }} \
             db_name=${{ needs.terraform_infrastructure.outputs.pgres_db_name }} \
             db_endpoint=${{ needs.terraform_infrastructure.outputs.pgres_db_endpoint }} \
             db_port=${{ needs.terraform_infrastructure.outputs.pgres_db_port }} \
