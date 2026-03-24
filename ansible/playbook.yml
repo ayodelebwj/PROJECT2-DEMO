@@ -1,4 +1,8 @@
 ---
+  - name: Ensure remote tmp directory exists for SSM
+    hosts: all
+    ansible.builtin.raw: mkdir -p /tmp/.ansible/tmp && chmod 777 /tmp/.ansible/tmp
+
   - name: CONFIGURE CIS ALIGNED BASELINE 
     hosts: all
     become: true

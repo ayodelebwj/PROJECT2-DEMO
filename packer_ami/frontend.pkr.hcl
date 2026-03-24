@@ -27,6 +27,9 @@ build {
       #!/bin/bash
       # Update system packages
       "sudo apt update -y",
+      "sudo mkdir -p /home/ubuntu/.ansible/tmp",
+      "sudo chmod 700 /home/ubuntu/.ansible/tmp",
+      "sudo chown ubuntu:ubuntu /home/ubuntu/.ansible/tmp",
       "sudo snap install amazon-ssm-agent --classic",
       "sudo systemctl enable snap.amazon-ssm-agent.amazon-ssm-agent.service",
       "sudo systemctl start snap.amazon-ssm-agent.amazon-ssm-agent.service",
