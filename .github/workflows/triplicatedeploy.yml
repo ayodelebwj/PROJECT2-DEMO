@@ -350,59 +350,64 @@ jobs:
                   $ID:
                     ansible_connection: amazon.aws.aws_ssm
                     private_ip: $PRIV
+
+          jq -c '.[]' frontend_public_ips.json | while read inst; do
+            ID=$(echo $inst | jq -r '.id')
+            PUB=$(echo $inst | jq -r '.public')
+
+            cat <<EOF >> ansible/inventory/asg-alb.yml
+                  $ID:
+                    ansible_connection: amazon.aws.aws_ssm
+                    public_ip: $PUB
+
           EOF
           done
-
-
-
-
-
 
       - name: cat inventory/asg-alb.yml
         run: |
           cat ansible/inventory/asg-alb.yml
 
 
-      - name: Popoluate Ansible Inventory
-        working-directory: ansible
-        run: |
-          cat <<EOF > inventory/testrunhost.yml
-          all:
-            vars:
-              ansible_become: true
-              ansible_become_method: sudo
-              ansible_become_user: root
-              database_password: "osedudu"
-            children:
-              backend:
-                hosts:
-                  ${{ needs.terraform_infrastructure.outputs.backend_inst_id }}:
-                    ansible_connection: amazon.aws.aws_ssm
-                    ansible_user: ubuntu
-                    ansible_aws_ssm_region: us-east-1
-                    ansible_aws_ssm_bucket_name: techbleat744
-                    ansible_region: us-east-1
-                    ansible_remote_tmp: /tmp/.ansible/tmp
-
-              frontend:
-                hosts:
-                  ${{ needs.terraform_infrastructure.outputs.frontend_inst_id }}:
-                    ansible_connection: amazon.aws.aws_ssm
-                    ansible_user: ubuntu
-                    ansible_aws_ssm_region: us-east-1
-                    ansible_aws_ssm_bucket_name: techbleat744
-                    ansible_region: us-east-1
-                    ansible_remote_tmp: /tmp/.ansible/tmp
-          EOF
+#      - name: Popoluate Ansible Inventory
+#        working-directory: ansible
+#        run: |
+#          cat <<EOF > inventory/testrunhost.yml
+#          all:
+#            vars:
+#              ansible_become: true
+#              ansible_become_method: sudo
+#              ansible_become_user: root
+#              database_password: "osedudu"
+#            children:
+#              backend:
+#                hosts:
+#                  ${{ needs.terraform_infrastructure.outputs.backend_inst_id }}:
+#                    ansible_connection: amazon.aws.aws_ssm
+#                    ansible_user: ubuntu
+#                    ansible_aws_ssm_region: us-east-1
+#                    ansible_aws_ssm_bucket_name: techbleat744
+#                    ansible_region: us-east-1
+#                    ansible_remote_tmp: /tmp/.ansible/tmp
+#
+#              frontend:
+#                hosts:
+#                  ${{ needs.terraform_infrastructure.outputs.frontend_inst_id }}:
+#                    ansible_connection: amazon.aws.aws_ssm
+#                    ansible_user: ubuntu
+#                    ansible_aws_ssm_region: us-east-1
+#                    ansible_aws_ssm_bucket_name: techbleat744
+#                    ansible_region: us-east-1
+#                    ansible_remote_tmp: /tmp/.ansible/tmp
+#          EOF
                    
       - name: Run Ansible Playbook
         working-directory: ansible
         run: |
             ansible-playbook -i inventory/asg-alb.yml \
             playbook.yml --extra-vars \
-            "backend_private_ip=${{ needs.terraform_infrastructure.outputs.backend_pri_ip }} \
-            frontend_public_ip=${{ needs.terraform_infrastructure.outputs.frontend_pub_ip }} \
-            frontend_private_ip=${{ needs.terraform_infrastructure.outputs.frontend_pri_ip }} \
+#            "backend_private_ip=${{ needs.terraform_infrastructure.outputs.backend_pri_ip }} \
+#            frontend_public_ip=${{ needs.terraform_infrastructure.outputs.frontend_pub_ip }} \
+#            frontend_private_ip=${{ needs.terraform_infrastructure.outputs.frontend_pri_ip }} \
             db_name=${{ needs.terraform_infrastructure.outputs.pgres_db_name }} \
             db_endpoint=${{ needs.terraform_infrastructure.outputs.pgres_db_endpoint }} \
             db_port=${{ needs.terraform_infrastructure.outputs.pgres_db_port }} \
