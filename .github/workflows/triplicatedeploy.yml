@@ -7,6 +7,7 @@ on:
 
 jobs:
   packer_ami_template:
+    if: false
     runs-on: ubuntu-latest
 
     env:
@@ -43,7 +44,7 @@ jobs:
         run: packer build frontend.pkr.hcl
 
   terraform_infrastructure:
-    needs: packer_ami_template
+    #needs: packer_ami_template
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -122,38 +123,6 @@ jobs:
         working-directory: terraform
         id: betgarn
         run: echo "backend_tg_arn=$(terraform output -raw backend_tg_arn)" >> $GITHUB_OUTPUT
-
-
-
- #     - name: Get Terraform Frontend Public IP
- #       working-directory: terraform
- #       id: tfftpubip
- #       run: 
- #         echo "frontend_pub_ip=$(terraform output -raw frontend_public_ip)" >> $GITHUB_OUTPUT
-
- #     - name: Get Terraform Frontend Private IP
- #       working-directory: terraform
- #       id: tfftpriip
- #      run: 
- #         echo "frontend_pri_ip=$(terraform output -raw frontend_private_ip)" >> $GITHUB_OUTPUT
-         
- #     - name: Get Terraform Backend Private IP
- #       working-directory: terraform
- #       id: tfbkprip
- #       run: 
- #         echo "backend_pri_ip=$(terraform output -raw backend_private_ip)" >> $GITHUB_OUTPUT
-  
- #     - name: Get Terraform Backend Instance ID
- #       working-directory: terraform
- #       id: tfbkinstid
- #       run: 
- #        echo "backend_inst_id=$(terraform output -raw backend_instance_id)" >> $GITHUB_OUTPUT
-  
- #     - name: Get Terraform Frontend Instance ID
- #       working-directory: terraform
- #       id: tfftinstid
- #       run: 
- #        echo "frontend_inst_id=$(terraform output -raw frontend_instance_id)" >> $GITHUB_OUTPUT
 
       - name: Get DB Endpoint Output
         working-directory: terraform
@@ -336,7 +305,8 @@ jobs:
       - name: Run Ansible Playbook
         working-directory: ansible
         run: |
-            ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook -i inventory/asg-alb.yml \
+            export ANSIBLE_CONFIG=ansible/ansible.cfg
+            ansible-playbook -i inventory/asg-alb.yml \
             playbook.yml --extra-vars \
             "db_name=${{ needs.terraform_infrastructure.outputs.pgres_db_name }} \
             db_endpoint=${{ needs.terraform_infrastructure.outputs.pgres_db_endpoint }} \
