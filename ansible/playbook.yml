@@ -1,7 +1,13 @@
 ---
   - name: Ensure remote tmp directory exists for SSM
     hosts: all
-    ansible.builtin.raw: mkdir -p /tmp/.ansible/tmp && chmod 777 /tmp/.ansible/tmp
+    gather_facts: false
+    tasks:
+      - name: Create remote temp dir
+        ansible.builtin.file:
+          path: /tmp/.ansible/tmp
+          state: directory
+          mode: '0777'
 
   - name: CONFIGURE CIS ALIGNED BASELINE 
     hosts: all

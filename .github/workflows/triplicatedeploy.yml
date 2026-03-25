@@ -395,7 +395,7 @@ jobs:
       - name: Run Ansible Playbook
         working-directory: ansible
         run: |
-            ansible-playbook -i inventory/asg-alb.yml \
+            ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook -i inventory/asg-alb.yml \
             playbook.yml --extra-vars \
             "db_name=${{ needs.terraform_infrastructure.outputs.pgres_db_name }} \
             db_endpoint=${{ needs.terraform_infrastructure.outputs.pgres_db_endpoint }} \
