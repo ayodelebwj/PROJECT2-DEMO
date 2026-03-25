@@ -41,9 +41,8 @@ build {
     inline_shebang = "/bin/bash -xe"
     inline = [
       "sudo apt update -y",
-      "sudo mkdir -p /home/ubuntu/.ansible/tmp",
-      "sudo chmod 700 /home/ubuntu/.ansible/tmp",
-      "sudo chown ubuntu:ubuntu /home/ubuntu/.ansible/tmp",
+      "sudo mkdir -p /tmp/.ansible/tmp",
+      "sudo chmod 700 /tmp/.ansible/tmp",
       "sudo apt install python3.12-venv python3 python3-pip -y",
       "git clone https://github.com/techbleat/class25-26-project2.git",
       "sudo cp /tmp/backend-app.service /etc/systemd/system/backend-app.service",
