@@ -294,32 +294,6 @@ jobs:
             echo "Found IP: $ip"
           done < backend_instance_ids.txt
 
-
-
- #     - name: Generate Dynamic Ansible Inventory
- #       run: |
- #         echo "all:" > ansible/inventory/asg-alb.yml
- #         echo "  children:" >> ansible/inventory/asg-alb.yml
- #         echo "    backend:" >> ansible/inventory/asg-alb.yml
- #         echo "      hosts:" >> ansible/inventory/asg-alb.yml
-
- #         while read ip; do
- #           echo "        $ip:" >> ansible/inventory/asg-alb.yml
- #           echo "          ansible_user: ubuntu" >> ansible/inventory/asg-alb.yml
- #           echo "          ansible_connection: amazon.aws.aws_ssm" >> ansible/inventory/asg-alb.yml
- #         done < backend_instance_ids.txt
-
-#          echo "    frontend:" >> ansible/inventory/asg-alb.yml
-#          echo "      hosts:" >> ansible/inventory/asg-alb.yml
-
- #         while read ip; do
- #           echo "        $ip:" >> ansible/inventory/asg-alb.yml
- #           echo "          ansible_user: ubuntu" >> ansible/inventory/asg-alb.yml
- #           echo "          ansible_connection: amazon.aws.aws_ssm" >> ansible/inventory/asg-alb.yml
- #         done < frontend_instance_ids.txt
-
-
-
       - name: Generate Dynamic Ansible Inventory
         run: |
           echo "all:" > ansible/inventory/asg-alb.yml
@@ -359,39 +333,6 @@ jobs:
         run: |
           cat ansible/inventory/asg-alb.yml
 
-
-#      - name: Popoluate Ansible Inventory
-#        working-directory: ansible
-#        run: |
-#          cat <<EOF > inventory/testrunhost.yml
-#          all:
-#            vars:
-#              ansible_become: true
-#              ansible_become_method: sudo
-#              ansible_become_user: root
-#              database_password: "osedudu"
-#            children:
-#              backend:
-#                hosts:
-#                  ${{ needs.terraform_infrastructure.outputs.backend_inst_id }}:
-#                    ansible_connection: amazon.aws.aws_ssm
-#                    ansible_user: ubuntu
-#                    ansible_aws_ssm_region: us-east-1
-#                    ansible_aws_ssm_bucket_name: techbleat744
-#                    ansible_region: us-east-1
-#                    ansible_remote_tmp: /tmp/.ansible/tmp
-#
-#              frontend:
-#                hosts:
-#                  ${{ needs.terraform_infrastructure.outputs.frontend_inst_id }}:
-#                    ansible_connection: amazon.aws.aws_ssm
-#                    ansible_user: ubuntu
-#                    ansible_aws_ssm_region: us-east-1
-#                    ansible_aws_ssm_bucket_name: techbleat744
-#                    ansible_region: us-east-1
-#                    ansible_remote_tmp: /tmp/.ansible/tmp
-#          EOF
-                   
       - name: Run Ansible Playbook
         working-directory: ansible
         run: |
