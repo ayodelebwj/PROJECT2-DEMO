@@ -63,7 +63,7 @@ jobs:
     steps:
       # -------------------------------------
       # Checkout repo
-      # -----------------------------------
+      # -------------------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
 
