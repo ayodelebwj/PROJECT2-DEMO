@@ -266,6 +266,7 @@ jobs:
       - name: Generate Dynamic Ansible Inventory
         run: |
           echo "all:" > ansible/inventory/asg-alb.yml
+          echo "  vars:"
           echo "  children:" >> ansible/inventory/asg-alb.yml
           echo "    backend:" >> ansible/inventory/asg-alb.yml
           echo "      hosts:" >> ansible/inventory/asg-alb.yml
