@@ -41,6 +41,9 @@ build {
     inline_shebang = "/bin/bash -xe"
     inline = [
       "sudo apt update -y",
+      "sudo snap install amazon-ssm-agent --classic",
+      "sudo systemctl enable snap.amazon-ssm-agent.amazon-ssm-agent.service",
+      "sudo systemctl start snap.amazon-ssm-agent.amazon-ssm-agent.service",
       "sudo mkdir -p /tmp/.ansible/tmp",
       "sudo chmod 700 /tmp/.ansible/tmp",
       "sudo apt install python3.12-venv python3 python3-pip -y",
@@ -55,10 +58,8 @@ build {
        "./venv/bin/pip install -r requirements.txt",
       "sudo systemctl daemon-reload",
       "sudo systemctl enable backend-app.service",
-      "sudo systemctl start backend-app.service",
-      "sudo snap install amazon-ssm-agent --classic",
-      "sudo systemctl enable snap.amazon-ssm-agent.amazon-ssm-agent.service",
-      "sudo systemctl start snap.amazon-ssm-agent.amazon-ssm-agent.service"
+      "sudo systemctl start backend-app.service"
+
     ]
   }
 }
