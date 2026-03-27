@@ -304,7 +304,11 @@ jobs:
 
       - name: PING HOST
         run: |
-            ansible -i ansible/inventory/asg-alb.yml all -m ping -vvvvv
+            aws ssm send-command --document-name "AWS-RunShellScript" --targets "Key=instanceIds,Values=i-0e7b3aa58a77396d3" --parameters commands="whoami && echo \$HOME"
+
+      - name: PING HOST
+        run: |
+            aws ssm send-command --document-name "AWS-RunShellScript" --targets "Key=instanceIds,Values=i-0309ff53ad9d50a51" --parameters commands="whoami && echo \$HOME"
 
       - name: Run Ansible Playbook
         working-directory: ansible
