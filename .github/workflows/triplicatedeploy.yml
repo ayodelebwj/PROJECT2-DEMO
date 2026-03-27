@@ -302,9 +302,9 @@ jobs:
         run: |
           cat ansible/inventory/asg-alb.yml
 
-      - name: PWD
+      - name: PING HOST
         run: |
-          pwd
+            ansible -i ansible/inventory/asg-alb.yml all -m ping -vvvvv
 
       - name: Run Ansible Playbook
         working-directory: ansible
