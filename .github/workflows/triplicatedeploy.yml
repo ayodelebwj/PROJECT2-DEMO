@@ -302,6 +302,10 @@ jobs:
         run: |
           cat ansible/inventory/asg-alb.yml
 
+      - name: PWD
+        run: |
+          pwd
+
       - name: Run Ansible Playbook
         working-directory: ansible
         run: |
