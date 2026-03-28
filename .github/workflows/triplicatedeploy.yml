@@ -307,12 +307,12 @@ jobs:
 
       - name: PING HOST
         run: |
-            aws ssm send-command --instance-ids "i-04b8c3483566cb4aa" --document-name "AWS-RunShellScript" --comment "Test command" --parameters commands=["uptime"]
+            aws ssm send-command --instance-ids "i-00741c8f3167c1868" --document-name "AWS-RunShellScript" --comment "Test command" --parameters commands=["uptime"]
       
 
       - name: PING HOST
         run: |
-            aws ssm send-command --instance-ids "i-04799172ac24b955a" --document-name "AWS-RunShellScript" --comment "Test command" --parameters commands="whoami && echo \$HOME"
+            aws ssm send-command --instance-ids "i-0baad398f06d3d28c" --document-name "AWS-RunShellScript" --comment "Test command" --parameters commands="whoami && echo \$HOME"
 
 
       - name: Run Ansible
