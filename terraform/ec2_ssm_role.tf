@@ -35,6 +35,8 @@ resource "aws_iam_role_policy" "ssm_session_policy" {
           "ssm:StartSession",
           "ssm:TerminateSession",
           "ssm:DescribeSessions",
+          "ssm:ListCommandInvocations",
+          "ssm:GetCommandInvocation",
           "ssm:GetConnectionStatus"
         ]
         Resource = "*"
